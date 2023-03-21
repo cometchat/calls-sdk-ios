@@ -10,7 +10,7 @@ let package = Package(
         .iOS(.v11)
     ],
     products: [
-        .library(name: "CometChatCalls", targets: ["CometChatCalls","WebRTC"])
+        .library(name: "CometChatCall", targets: ["CometChatCalls","WebRTC"])
     ],
     targets: [
         .binaryTarget(
