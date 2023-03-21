@@ -10,18 +10,13 @@ let package = Package(
         .iOS(.v11)
     ],
     products: [
-        .library(name: "CometChatCalls", targets: ["CometChatCall","CometChatProCalls","WebRTC"])
+        .library(name: "CometChatCalls", targets: ["CometChatCalls","WebRTC"])
     ],
     targets: [
         .binaryTarget(
-            name: "CometChatCall",
-            url: "https://library.cometchat.io/ios/spm/Calls/CometChatCall_3_0_0-alpha1.xcframework.zip",
-            checksum: "15d2f655314b893c17311f5e7e79e7906a2ca84b22cf7e92c6e1177422cd5976"
-        ),
-        .binaryTarget(
-            name: "CometChatProCalls",
-            url: "https://library.cometchat.io/ios/spm/Calls/CometChatProCalls_2_3_0-alpha1.xcframework.zip",
-            checksum: "60ab190c5894ce1279bf302770af433c606aac64be250f7360c6a276e3dd4c4f"
+            name: "CometChatCalls",
+            url: "https://library.cometchat.io/ios/spm/Calls/CometChatCalls_2_3_0-alpha2.xcframework.zip",
+            checksum: "9154bf4b0737d51297a15ca8ecda910a90d12b399ae593d4da56868a3c4fb42c"
         ),
         .binaryTarget(
             name: "WebRTC",
