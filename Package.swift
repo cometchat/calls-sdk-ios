@@ -4,19 +4,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "CometChatProCalls",
+    name: "CometChatCallsSDK",
     platforms: [
         // Only add support for iOS 11 and up.
         .iOS(.v11)
     ],
     products: [
-        .library(name: "CometChatProCalls", targets: ["CometChatProCalls","WebRTC"])
+        .library(name: "CometChatCallsSDK", targets: ["CometChatCallsSDK","WebRTC"])
     ],
     targets: [
         .binaryTarget(
-            name: "CometChatProCalls",
-            url: "https://library.cometchat.io/ios/spm/Calls/CometChatProCalls_3_0_2.xcframework.zip",
-            checksum: "624ea38f0bb8ca8ec8edd6b80772b62b2a338e6a523e3898e701456dfd5e2324"
+            name: "CometChatCallsSDK",
+            url: "https://library.cometchat.io/ios/v4.0/xcode14/CometChatCallsSDK_4_0_0-beta2.xcframework.zip",
+            checksum: "23b6b1cfa86ceb61c56e88549ac6ad102b83b23ab8d0574dca2195098143e04f"
         ),
         .binaryTarget(
             name: "WebRTC",
