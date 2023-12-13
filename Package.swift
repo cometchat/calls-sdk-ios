@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "CometChatCallsSDK",
-            url: "https://library.cometchat.io/ios/v4/xcode15/CometChatCallsSDK_4_0_1.xcframework.zip",
-            checksum: "07dbfa06ad7565c7d81f655bfb55972b4dd5cb4c4fc41daf916c83b85ec1a631"
+            url: "https://library.cometchat.io/ios/v4/xcode15/CometChatCallsSDK_4_0_2.xcframework.zip",
+            checksum: "60c0fd36291b6e17d48f80c78cd6bc794257ce8a374ae772f887e99fc991d797"
         ),
         .binaryTarget(
             name: "WebRTC",
