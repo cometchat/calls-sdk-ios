@@ -51,7 +51,7 @@ Then run:
 pod install
 ```
 
-For the complete setup guide, refer to our [official documentation](https://www.cometchat.com/docs/sdk/ios/calling-overview).
+For the complete setup guide, refer to our [official documentation](https://www.cometchat.com/docs/calls/ios/overview).
 
 ## 🚀 Explore the Sample App
 
@@ -63,4 +63,4 @@ Dive straight into our sample app to see the CometChat Calls SDK in action.
 
 ## Help and Support
 
-For issues running the project or integrating with our UI Kits, consult our [documentation](https://www.cometchat.com/docs/sdk/ios/calling-overview) or create a [support ticket](https://help.cometchat.com/hc/en-us) or seek real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
+For issues running the project or integrating with our UI Kits, consult our [documentation](https://www.cometchat.com/docs/calls/ios/overview) or create a [support ticket](https://help.cometchat.com/hc/en-us) or seek real-time support via the [CometChat Dashboard](https://app.cometchat.com/).
