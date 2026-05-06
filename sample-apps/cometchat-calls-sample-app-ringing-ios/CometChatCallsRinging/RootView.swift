@@ -13,17 +13,11 @@ struct RootView: View {
             case .login:
                 LoginView()
             case .home:
-                TabView {
-                    HomeView()
-                        .tabItem {
-                            Label("Meeting", systemImage: "video.fill")
-                        }
-                    CallLogsView()
-                        .tabItem {
-                            Label("History", systemImage: "clock.arrow.circlepath")
-                        }
-                }
-                .tint(.accentPurple)
+                HomeView()
+            case .incomingCall:
+                IncomingCallView()
+            case .outgoingCall:
+                OutgoingCallView()
             }
         }
         .animation(.easeInOut(duration: 0.25), value: appState.currentScreen)

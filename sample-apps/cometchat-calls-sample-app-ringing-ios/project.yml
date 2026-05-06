@@ -1,0 +1,48 @@
+name: CometChatCallsRinging
+options:
+  bundleIdPrefix: com.cometchat
+  deploymentTarget:
+    iOS: "15.0"
+  xcodeVersion: "16.0"
+packages:
+  CometChatCallsSDK:
+    path: ../../
+  CometChatSDK:
+    url: https://github.com/cometchat/chat-sdk-ios.git
+    exactVersion: 4.1.3
+targets:
+  CometChatCallsRinging:
+    type: application
+    platform: iOS
+    sources:
+      - path: CometChatCallsRinging
+        excludes:
+          - Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.cometchat.calls.ringing
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
+        DEVELOPMENT_TEAM: ""
+    info:
+      path: CometChatCallsRinging/Info.plist
+      properties:
+        CFBundleName: "$(PRODUCT_NAME)"
+        CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundlePackageType: "$(PRODUCT_BUNDLE_TYPE)"
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        UILaunchScreen: {}
+        NSCameraUsageDescription: "Camera access is required for video calls"
+        NSMicrophoneUsageDescription: "Microphone access is required for voice and video calls"
+        UIBackgroundModes:
+          - voip
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+    dependencies:
+      - package: CometChatCallsSDK
+        product: CometChatCallsSDK
+      - package: CometChatSDK
+        product: CometChatSDK

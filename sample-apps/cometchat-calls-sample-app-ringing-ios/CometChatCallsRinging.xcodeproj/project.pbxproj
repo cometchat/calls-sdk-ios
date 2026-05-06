@@ -1,0 +1,417 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07382674792486E2DBE230CF /* CometChatCallsSDK in Frameworks */ = {isa = PBXBuildFile; productRef = A60FBB396DF04D798DF787B5 /* CometChatCallsSDK */; };
+		2B9C7EB267F13E1FF563B5CF /* CometChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AEC3FB4E96E5CD8FBC63F02A /* CometChatSDK */; };
+		3342D6866E6D45DE28B340A9 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDCA9F692EF5EE8CD364074 /* Styles.swift */; };
+		60312956F0C16C199DD64CAD /* AppCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485A38A41D46BF926319446B /* AppCredentialsView.swift */; };
+		6BE4DF2D18EE02E036F1537A /* OutgoingCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22F05FD6421A1BD24B605E6 /* OutgoingCallView.swift */; };
+		73ABEB6859D615CEAF99406C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2394D59C81B7102D0AEF91 /* LoginView.swift */; };
+		7A2341AEAD89CAB91C3BFDDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D25D1019C8D5939A12188402 /* Assets.xcassets */; };
+		7E707D8746ED091D9E532AE8 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C88470AB5FC16ABE752E5 /* RootView.swift */; };
+		875EC91195C5660A040998A6 /* CallLogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E767414C4DBE9A3590E4DC0 /* CallLogsView.swift */; };
+		8EA06B469812D749A18AAB36 /* CallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CE0B50E75911FA1E7C4EEB /* CallView.swift */; };
+		92565FE8947ACE815F3FF43D /* CometChatCallsRingingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD30DB9E40703B543649A906 /* CometChatCallsRingingApp.swift */; };
+		93736EFD6ECD293271347F72 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765506554FFE6F2709B2556D /* AppConstants.swift */; };
+		9861FAC8DDEDDE5FA15A82E4 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED75D6B927FD21F34C17609F /* SplashView.swift */; };
+		9F7DF5904F56C2DA04792B2B /* IncomingCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627801BF46AF4E14837075CB /* IncomingCallView.swift */; };
+		B27029BBCE151C1E57A41656 /* SampleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E1D0645D0986655409A0A /* SampleUser.swift */; };
+		DC5EE21ABBB62F0F040F30CD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD8B0959E00A3263B80631C /* HomeView.swift */; };
+		E6F4363D574334992291280F /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF3E94DA4DD72A8036D914 /* AppState.swift */; };
+		EC3FFCFA427E4E119A2FE658 /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70C740590DF230EDFD94BCF /* UsersView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1C462009978BD3EC36317770 /* CometChatCallsRinging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CometChatCallsRinging.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FFF3E94DA4DD72A8036D914 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		485A38A41D46BF926319446B /* AppCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCredentialsView.swift; sourceTree = "<group>"; };
+		5BDCA9F692EF5EE8CD364074 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		627801BF46AF4E14837075CB /* IncomingCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCallView.swift; sourceTree = "<group>"; };
+		765506554FFE6F2709B2556D /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		9E767414C4DBE9A3590E4DC0 /* CallLogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallLogsView.swift; sourceTree = "<group>"; };
+		A7C21EE2B1352E0E98529C3F /* calls-sdk-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "calls-sdk-ios"; path = ../..; sourceTree = SOURCE_ROOT; };
+		B89C88470AB5FC16ABE752E5 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		D25D1019C8D5939A12188402 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D70C740590DF230EDFD94BCF /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
+		D90E1D0645D0986655409A0A /* SampleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUser.swift; sourceTree = "<group>"; };
+		DD30DB9E40703B543649A906 /* CometChatCallsRingingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CometChatCallsRingingApp.swift; sourceTree = "<group>"; };
+		DDD8B0959E00A3263B80631C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E3CE0B50E75911FA1E7C4EEB /* CallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallView.swift; sourceTree = "<group>"; };
+		EB2394D59C81B7102D0AEF91 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		ED75D6B927FD21F34C17609F /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		F22F05FD6421A1BD24B605E6 /* OutgoingCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingCallView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1E31988FA308FC7F7C7194D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07382674792486E2DBE230CF /* CometChatCallsSDK in Frameworks */,
+				2B9C7EB267F13E1FF563B5CF /* CometChatSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		04B2E3C2BF966B8E173C8547 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				A7C21EE2B1352E0E98529C3F /* calls-sdk-ios */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		A459694B6BF513B6FDC233AC = {
+			isa = PBXGroup;
+			children = (
+				DD4725E0656A689488F8D970 /* CometChatCallsRinging */,
+				04B2E3C2BF966B8E173C8547 /* Packages */,
+				DA111C586DED435DB0A44782 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA111C586DED435DB0A44782 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1C462009978BD3EC36317770 /* CometChatCallsRinging.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD4725E0656A689488F8D970 /* CometChatCallsRinging */ = {
+			isa = PBXGroup;
+			children = (
+				765506554FFE6F2709B2556D /* AppConstants.swift */,
+				485A38A41D46BF926319446B /* AppCredentialsView.swift */,
+				2FFF3E94DA4DD72A8036D914 /* AppState.swift */,
+				D25D1019C8D5939A12188402 /* Assets.xcassets */,
+				9E767414C4DBE9A3590E4DC0 /* CallLogsView.swift */,
+				E3CE0B50E75911FA1E7C4EEB /* CallView.swift */,
+				DD30DB9E40703B543649A906 /* CometChatCallsRingingApp.swift */,
+				DDD8B0959E00A3263B80631C /* HomeView.swift */,
+				627801BF46AF4E14837075CB /* IncomingCallView.swift */,
+				EB2394D59C81B7102D0AEF91 /* LoginView.swift */,
+				F22F05FD6421A1BD24B605E6 /* OutgoingCallView.swift */,
+				B89C88470AB5FC16ABE752E5 /* RootView.swift */,
+				D90E1D0645D0986655409A0A /* SampleUser.swift */,
+				ED75D6B927FD21F34C17609F /* SplashView.swift */,
+				5BDCA9F692EF5EE8CD364074 /* Styles.swift */,
+				D70C740590DF230EDFD94BCF /* UsersView.swift */,
+			);
+			path = CometChatCallsRinging;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		58B3A2268399142F9D522A1A /* CometChatCallsRinging */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8856DFFF82A4207EEF32C560 /* Build configuration list for PBXNativeTarget "CometChatCallsRinging" */;
+			buildPhases = (
+				2129C6630761EC67B5B565F2 /* Sources */,
+				2F400CD431D742DF8C30061A /* Resources */,
+				1E31988FA308FC7F7C7194D4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CometChatCallsRinging;
+			packageProductDependencies = (
+				A60FBB396DF04D798DF787B5 /* CometChatCallsSDK */,
+				AEC3FB4E96E5CD8FBC63F02A /* CometChatSDK */,
+			);
+			productName = CometChatCallsRinging;
+			productReference = 1C462009978BD3EC36317770 /* CometChatCallsRinging.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0DB7607EE26918D4DB048895 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 17AD8AEE63F94774DB5FD462 /* Build configuration list for PBXProject "CometChatCallsRinging" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = A459694B6BF513B6FDC233AC;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D144DEC8E6D9FCDE37B2402C /* XCRemoteSwiftPackageReference "chat-sdk-ios" */,
+				9A616BAD0954AA86019E5C89 /* XCLocalSwiftPackageReference "../..//" */,
+			);
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				58B3A2268399142F9D522A1A /* CometChatCallsRinging */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2F400CD431D742DF8C30061A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A2341AEAD89CAB91C3BFDDB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2129C6630761EC67B5B565F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93736EFD6ECD293271347F72 /* AppConstants.swift in Sources */,
+				60312956F0C16C199DD64CAD /* AppCredentialsView.swift in Sources */,
+				E6F4363D574334992291280F /* AppState.swift in Sources */,
+				875EC91195C5660A040998A6 /* CallLogsView.swift in Sources */,
+				8EA06B469812D749A18AAB36 /* CallView.swift in Sources */,
+				92565FE8947ACE815F3FF43D /* CometChatCallsRingingApp.swift in Sources */,
+				DC5EE21ABBB62F0F040F30CD /* HomeView.swift in Sources */,
+				9F7DF5904F56C2DA04792B2B /* IncomingCallView.swift in Sources */,
+				73ABEB6859D615CEAF99406C /* LoginView.swift in Sources */,
+				6BE4DF2D18EE02E036F1537A /* OutgoingCallView.swift in Sources */,
+				7E707D8746ED091D9E532AE8 /* RootView.swift in Sources */,
+				B27029BBCE151C1E57A41656 /* SampleUser.swift in Sources */,
+				9861FAC8DDEDDE5FA15A82E4 /* SplashView.swift in Sources */,
+				3342D6866E6D45DE28B340A9 /* Styles.swift in Sources */,
+				EC3FFCFA427E4E119A2FE658 /* UsersView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0112B298C8B7B95E7D46C44F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		0A616E29AFE50CDAB025DF86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T9F7QDSC2S;
+				INFOPLIST_FILE = CometChatCallsRinging/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cometchat.calls.ringing;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A2F8CCE780652AC0655E6413 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B69F814A908F8D43EC3CEB31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T9F7QDSC2S;
+				INFOPLIST_FILE = CometChatCallsRinging/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cometchat.calls.ringing;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17AD8AEE63F94774DB5FD462 /* Build configuration list for PBXProject "CometChatCallsRinging" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0112B298C8B7B95E7D46C44F /* Debug */,
+				A2F8CCE780652AC0655E6413 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8856DFFF82A4207EEF32C560 /* Build configuration list for PBXNativeTarget "CometChatCallsRinging" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A616E29AFE50CDAB025DF86 /* Debug */,
+				B69F814A908F8D43EC3CEB31 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		9A616BAD0954AA86019E5C89 /* XCLocalSwiftPackageReference "../..//" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../..//";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D144DEC8E6D9FCDE37B2402C /* XCRemoteSwiftPackageReference "chat-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cometchat/chat-sdk-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A60FBB396DF04D798DF787B5 /* CometChatCallsSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CometChatCallsSDK;
+		};
+		AEC3FB4E96E5CD8FBC63F02A /* CometChatSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D144DEC8E6D9FCDE37B2402C /* XCRemoteSwiftPackageReference "chat-sdk-ios" */;
+			productName = CometChatSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 0DB7607EE26918D4DB048895 /* Project object */;
+}

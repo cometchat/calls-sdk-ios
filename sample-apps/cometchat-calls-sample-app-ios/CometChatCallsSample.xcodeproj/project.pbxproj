@@ -16,6 +16,7 @@
 		51B1215EC1FF9491BCC93593 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E8C0AB1DED61A6252AC25D /* RootView.swift */; };
 		67D5FBAF8B854B329D09EAEE /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E2F70EFEF01A011BE6971C /* AppState.swift */; };
 		6B1688C0AF6356B3ED0F6940 /* CometChatCallsSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FA08D487939B5C902A9E78 /* CometChatCallsSampleApp.swift */; };
+		7892B7187F6C38EB6CA02066 /* CallLogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30922AB72A41E0D5E0479C80 /* CallLogsView.swift */; };
 		96BA23FB703B9CB329FE46A0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B5EF8658021B7908DBE601 /* LoginView.swift */; };
 		B0FD7712F364C6F0027A5DD8 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106F407225D4B9A0AF750154 /* AppConstants.swift */; };
 		BFE340889B78F68893B5ECD2 /* SampleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8CAE077F3896B8910DBF5F /* SampleUser.swift */; };
@@ -27,6 +28,7 @@
 		106F407225D4B9A0AF750154 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		18E2F70EFEF01A011BE6971C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		1DCA75E59D2FACE0402EE722 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		30922AB72A41E0D5E0479C80 /* CallLogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallLogsView.swift; sourceTree = "<group>"; };
 		34B62F58295AD1CA75966184 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4D8CAE077F3896B8910DBF5F /* SampleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUser.swift; sourceTree = "<group>"; };
 		4DF059629F3EE90D032F7ADF /* CometChatCallsSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CometChatCallsSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +68,7 @@
 				6BF203D4E8057619D53B247D /* AppCredentialsView.swift */,
 				18E2F70EFEF01A011BE6971C /* AppState.swift */,
 				1DCA75E59D2FACE0402EE722 /* Assets.xcassets */,
+				30922AB72A41E0D5E0479C80 /* CallLogsView.swift */,
 				A7E4A207726A9F0849C29475 /* CallView.swift */,
 				99FA08D487939B5C902A9E78 /* CometChatCallsSampleApp.swift */,
 				34B62F58295AD1CA75966184 /* HomeView.swift */,
@@ -167,6 +170,7 @@
 				B0FD7712F364C6F0027A5DD8 /* AppConstants.swift in Sources */,
 				301A7C4CF03BB736FF94BCF3 /* AppCredentialsView.swift in Sources */,
 				67D5FBAF8B854B329D09EAEE /* AppState.swift in Sources */,
+				7892B7187F6C38EB6CA02066 /* CallLogsView.swift in Sources */,
 				32F7EF31217E37AC48279110 /* CallView.swift in Sources */,
 				6B1688C0AF6356B3ED0F6940 /* CometChatCallsSampleApp.swift in Sources */,
 				1F7DF7857962962192507A98 /* HomeView.swift in Sources */,

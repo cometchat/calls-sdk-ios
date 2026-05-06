@@ -37,11 +37,11 @@ https://github.com/cometchat/calls-sdk-ios.git
 Add the following to your `Podfile`:
 
 ```ruby
-platform :ios, '13.0'
+platform :ios, '15.0'
 
 target 'YourApp' do
   use_frameworks!
-  pod 'CometChatCallsSDK', '5.0.0-beta.2'
+  pod 'CometChatCallsSDK', '5.0.0-beta.3'
 end
 ```
 
@@ -53,11 +53,18 @@ pod install
 
 For the complete setup guide, refer to our [official documentation](https://www.cometchat.com/docs/calls/ios/overview).
 
-## 🚀 Explore the Sample App
+## 🚀 Explore the Sample Apps
 
-Dive straight into our sample app to see the CometChat Calls SDK in action.
+Dive straight into our sample apps to see the CometChat Calls SDK in action.
 
-- [iOS Sample App](sample-apps/cometchat-calls-sample-app-ios#readme)
+| Sample App | Description |
+|------------|-------------|
+| [Standalone Calling](sample-apps/cometchat-calls-sample-app-ios#readme) | Join or start meetings with a session ID — Calls SDK only |
+| [Ringing](sample-apps/cometchat-calls-sample-app-ringing-ios#readme) | Full ringing flow with user list, incoming/outgoing screens — Chat SDK + Calls SDK |
+
+## 🤖 Agent Skills
+
+This repository includes agent skills in `skills/` for AI-assisted development. See the [skills README](skills/README.md) for the full list.
 
 ---
 
