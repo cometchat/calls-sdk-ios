@@ -21,10 +21,10 @@ import CometChatCallsSDK
 ### Participant Actions
 
 ```swift
-CallSession.shared.muteParticipant(uid: participant.uid)
-CallSession.shared.pauseParticipantVideo(uid: participant.uid)
-CallSession.shared.pinParticipant(uid: participant.uid)
-CallSession.shared.unPinParticipant()
+CallSession.shared.muteParticipant(participantId: participant.uid)
+CallSession.shared.pauseParticipantVideo(participantId: participant.uid)
+CallSession.shared.pinParticipant(participantId: participant.uid, type: "pin")
+CallSession.shared.unpinParticipant()
 ```
 
 ### Listen for Participant Events
@@ -59,10 +59,15 @@ CallSession.shared.addParticipantEventListener(handler)
 | `uid` | String | CometChat user ID |
 | `name` | String | Display name |
 | `avatar` | String | Avatar URL |
-| `isAudioMuted` | Bool | Audio muted? |
-| `isVideoPaused` | Bool | Video paused? |
-| `isPinned` | Bool | Pinned in layout? |
-| `isPresenting` | Bool | Screen sharing? |
+| `totalAudioMinutes` | Double | Total audio minutes |
+| `totalVideoMinutes` | Double | Total video minutes |
+| `totalDurationInMinutes` | Double | Total duration in minutes |
+| `deviceID` | String | Device identifier |
+| `isJoined` | Bool | Currently joined? |
+| `joinedAt` | Date | Join timestamp |
+| `mid` | String | Meeting ID |
+| `state` | String | Participant state |
+| `leftAt` | Date | Left timestamp |
 
 ### Show/Hide Participant List Button
 
@@ -77,7 +82,7 @@ let settings = SessionSettingsBuilder()
 
 - By default, all participants have moderator access (can mute/pause others)
 - Pinning only affects your local view
-- `unPinParticipant()` takes no arguments — unpins whoever is currently pinned
+- `unpinParticipant()` takes no arguments — unpins whoever is currently pinned
 - There is no "kick" API — only mute and pause video
 
 ## Sample App Reference

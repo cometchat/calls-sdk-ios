@@ -38,10 +38,8 @@ CallSession.shared.addParticipantEventListener(handler)
 ### Check Presenter Status
 
 ```swift
-func onParticipantListChanged(participants: [Participant]) {
-    if let presenter = participants.first(where: { $0.isPresenting }) {
-        print("\(presenter.name) is sharing their screen")
-    }
+func onParticipantStartedScreenShare(participant: Participant) {
+    print("\(participant.name) is sharing their screen")
 }
 ```
 
@@ -49,8 +47,7 @@ func onParticipantListChanged(participants: [Participant]) {
 
 - iOS mobile cannot initiate screen sharing — only web clients can
 - The SDK automatically adjusts the layout when a screen share starts
-- Use `participant.isPresenting` to check if someone is sharing
-- `MediaEventsListener` also has `onScreenShareStarted()`/`onScreenShareStopped()` for local events
+- Use `ParticipantEventListener.onParticipantStartedScreenShare(participant:)` and `onParticipantStoppedScreenShare(participant:)` to detect screen sharing
 
 ## Sample App Reference
 

@@ -26,6 +26,12 @@ let sessionSettings = SessionSettingsBuilder()
     .setTitle("Team Meeting")
     .setDisplayName("John Doe")
 
+    // Session type & layout
+    .setSessionType(.video)                  // .video or .audio
+    .setLayout(.tile)                        // .tile, .sidebar, .spotlight
+    .setAudioMode(.speaker)                  // .speaker, .earpiece, .bluetooth, .headphones
+    .setInitialCameraFacing(.FRONT)          // .FRONT or .REAR
+
     // Initial media state
     .startAudioMuted(false)
     .startVideoPaused(false)
@@ -33,6 +39,9 @@ let sessionSettings = SessionSettingsBuilder()
     // Timeout & recording
     .setIdleTimeoutPeriod(300)               // seconds (default 300)
     .enableAutoStartRecording(false)
+
+    // Notifications
+    .enableNotifications(true)               // toggle in-session notifications
 
     // Hide panels
     .hideControlPanel(false)

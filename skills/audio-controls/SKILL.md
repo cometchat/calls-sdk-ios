@@ -23,7 +23,7 @@ import AVFoundation
 
 ```swift
 CallSession.shared.muteAudio()    // mute microphone
-CallSession.shared.unMuteAudio()  // unmute microphone
+CallSession.shared.unmuteAudio()  // unmute microphone
 ```
 
 ### Switch Audio Output (AVAudioSession)
@@ -51,7 +51,7 @@ class MediaHandler: NSObject, MediaEventsListener {
     func onAudioUnMuted() {
         // Update mute button to "unmuted" state
     }
-    func onAudioModeChanged(audioMode: String) {
+    func onAudioModeChanged(audioMode: AudioMode) {
         // Update audio mode indicator
     }
     // ... other required methods
@@ -72,7 +72,7 @@ let settings = SessionSettingsBuilder()
 
 ## Gotchas
 
-- `muteAudio()` / `unMuteAudio()` only work during an active session
+- `muteAudio()` / `unmuteAudio()` only work during an active session
 - For voice calls, default to earpiece; for video calls, default to speaker
 - Bluetooth audio mode only works when a Bluetooth device is connected
 - AVAudioSession changes should be wrapped in try/catch

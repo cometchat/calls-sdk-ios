@@ -1,6 +1,6 @@
 ---
 name: call-logs
-description: Fetch call history using CallLogRequest with pagination and filters. Use when displaying call logs, filtering by type/status/recording, or accessing recordings. Triggers on "call logs", "call history", "CallLogRequest", "fetch recordings".
+description: Fetch call history using CallLogsRequest with pagination and filters. Use when displaying call logs, filtering by type/status/recording, or accessing recordings. Triggers on "call logs", "call history", "CallLogsRequest", "fetch recordings".
 inclusion: manual
 ---
 
@@ -8,7 +8,7 @@ inclusion: manual
 
 ## Overview
 
-Retrieve call history using `CallLogRequest` with pagination, filtering by type, status, direction, recordings, and specific users/groups.
+Retrieve call history using `CallLogsRequest` with pagination, filtering by type, status, direction, recordings, and specific users/groups.
 
 ## Key Imports
 
@@ -21,33 +21,33 @@ import CometChatCallsSDK
 ### Basic Fetch
 
 ```swift
-let request = CallLogRequest.CallLogRequestBuilder()
+let request = CallLogsRequest.CallLogsBuilder()
     .set(limit: 30)
     .build()
 
-request.fetchNext { callLogs in
+request.fetchNext(onSuccess: { callLogs in
     for log in callLogs {
-        print("Session: \(log.sessionID), Duration: \(log.totalDuration), Status: \(log.status)")
+        print("Session: \(log.sessionID), Duration: \(log.totalDurationInMinutes), Status: \(log.status)")
     }
-} onError: { error in
+}, onError: { error in
     print("Error: \(error?.errorDescription ?? "")")
-}
+})
 ```
 
 ### Filtered Queries
 
 ```swift
 // Video calls only
-CallLogRequest.CallLogRequestBuilder().set(sessionType: "video").set(limit: 20).build()
+CallLogsRequest.CallLogsBuilder().set(callType: SessionType.video).set(limit: 20).build()
 
 // Calls with recordings
-CallLogRequest.CallLogRequestBuilder().set(hasRecording: true).build()
+CallLogsRequest.CallLogsBuilder().set(hasRecording: true).build()
 
 // Missed incoming calls
-CallLogRequest.CallLogRequestBuilder().set(callStatus: "missed").set(callDirection: "incoming").build()
+CallLogsRequest.CallLogsBuilder().set(callStatus: CallStatus.missed).set(callDirection: CallDirection.incoming).build()
 
 // Calls with a specific user
-CallLogRequest.CallLogRequestBuilder().set(uid: "user_id").build()
+CallLogsRequest.CallLogsBuilder().set(uid: "user_id").build()
 ```
 
 ### Pagination
@@ -75,10 +75,11 @@ for callLog in callLogs {
 
 ## Gotchas
 
-- `CallLogRequest` is from the Calls SDK, not the Chat SDK
-- `set(sessionType:)` takes lowercase strings: `"video"` or `"audio"`
-- `set(callDirection:)` takes `"incoming"` or `"outgoing"`
-- Create a new `CallLogRequest` to reset pagination
+- `CallLogsRequest` is from the Calls SDK, not the Chat SDK
+- `set(callType:)` takes `SessionType` enum: `.video` or `.audio`
+- `set(callDirection:)` takes `CallDirection` enum: `.incoming` or `.outgoing`
+- Auth token is automatically resolved from the SDK's stored login token — no need to pass it manually
+- Create a new `CallLogsRequest` to reset pagination
 
 ## Sample App Reference
 

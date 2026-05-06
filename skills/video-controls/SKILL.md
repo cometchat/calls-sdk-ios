@@ -41,8 +41,8 @@ class MediaHandler: NSObject, MediaEventsListener {
     func onVideoResumed() {
         // Update video button to "on" state
     }
-    func onCameraFacingChanged(facing: String) {
-        // "front" or "back"
+    func onCameraFacingChanged(cameraFacing: CameraFacing) {
+        // .FRONT or .REAR
     }
     // ... other required methods
 }

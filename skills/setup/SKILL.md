@@ -82,7 +82,7 @@ Login with UID + Auth Key (dev only) or Auth Token (production):
 
 ```swift
 CometChatCalls.login(UID: "user_uid", authKey: "AUTH_KEY") { user in
-    print("Logged in as: \(user?.uid ?? "")")
+    print("Logged in as: \(user.uid)")
 } onError: { error in
     print("Login failed: \(error.errorDescription ?? "")")
 }

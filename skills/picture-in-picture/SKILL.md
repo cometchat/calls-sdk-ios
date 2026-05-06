@@ -33,7 +33,7 @@ NotificationCenter.default.addObserver(
     forName: UIApplication.didEnterBackgroundNotification,
     object: nil, queue: .main
 ) { _ in
-    if CallSession.shared.isSessionActive {
+    if CallSession.shared.isCallSessionActive() {
         CallSession.shared.enablePictureInPictureLayout()
     }
 }
@@ -51,7 +51,7 @@ NotificationCenter.default.addObserver(
 - The SDK adjusts the call UI layout — your app manages the PiP window lifecycle
 - iOS PiP for non-AVPlayer content requires additional setup with `AVPictureInPictureController`
 - Hide custom controls in PiP mode — they won't be usable in the small window
-- Check `isSessionActive` before enabling PiP to avoid errors
+- Check `isCallSessionActive()` before enabling PiP to avoid errors
 
 ## Sample App Reference
 

@@ -135,23 +135,23 @@ extension AppState: CometChatCallDelegate {
 }
 ```
 
-As a secondary safety net, also listen for `onUserLeft` via `ParticipantEventListener` on the Calls SDK session to handle 1-on-1 calls where the participant count drops to zero:
+As a secondary safety net, also listen for `onParticipantLeft` via `ParticipantEventListener` on the Calls SDK session to handle 1-on-1 calls where the participant count drops to zero:
 
 ```swift
 class Coordinator: NSObject, ParticipantEventListener {
     private var participantCount = 0
 
-    func onUserJoined(_ user: CallUser) { participantCount += 1 }
+    func onParticipantJoined(participant: Participant) { participantCount += 1 }
 
-    func onUserLeft(_ user: CallUser) {
+    func onParticipantLeft(participant: Participant) {
         participantCount -= 1
         if participantCount <= 0 {
             CallSession.shared.leaveSession()
         }
     }
 
-    func onUserListChanged(_ users: [CallUser]) {
-        participantCount = users.count
+    func onParticipantListChanged(participants: [Participant]) {
+        participantCount = participants.count
     }
 }
 
@@ -179,7 +179,7 @@ struct MyApp: App {
 
 - Cancel uses `CometChat.rejectCall()` with `.cancelled` status
 - Always call `CometChat.endCall()` when ending — otherwise the other party won't know
-- V5 SDK does NOT auto-disconnect when remote user leaves — the app must handle `onCallEndedMessageReceived` (Chat SDK) or `onUserLeft` (Calls SDK) to leave the session
+- V5 SDK does NOT auto-disconnect when remote user leaves — the app must handle `onCallEndedMessageReceived` (Chat SDK) or `onParticipantLeft` (Calls SDK) to leave the session
 - Use `CometChat.CallType` (not `CometChatSDK.CallType`) when both SDKs are imported — `CallType` is nested inside the `CometChat` class
 - CometChatSDK `onError` closures pass non-optional `CometChatException`; CometChatCallsSDK `onError` closures may pass optional `CometChatCallException?` — check the specific API
 - Remove call listeners when no longer needed to prevent retain cycles

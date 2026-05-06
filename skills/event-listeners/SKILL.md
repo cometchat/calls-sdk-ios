@@ -8,7 +8,7 @@ inclusion: manual
 
 ## Overview
 
-Four protocol-based listeners monitor call events. All are registered on `CallSession.shared` after joining a session.
+Five protocol-based listeners monitor call events. All are registered on `CallSession.shared` after joining a session.
 
 ## Key Imports
 
@@ -67,10 +67,8 @@ class MediaHandler: NSObject, MediaEventsListener {
     func onVideoResumed() {}
     func onRecordingStarted() {}
     func onRecordingStopped() {}
-    func onScreenShareStarted() {}
-    func onScreenShareStopped() {}
-    func onAudioModeChanged(audioMode: String) {}
-    func onCameraFacingChanged(facing: String) {}
+    func onAudioModeChanged(audioMode: AudioMode) {}
+    func onCameraFacingChanged(cameraFacing: CameraFacing) {}
 }
 
 CallSession.shared.addMediaEventsListener(handler)
@@ -95,14 +93,28 @@ class ButtonHandler: NSObject, ButtonClickListener {
 CallSession.shared.addButtonClickListener(handler)
 ```
 
+### 5. LayoutListener
+
+```swift
+@objc public protocol LayoutListener {
+    @objc optional func onCallLayoutChanged(layoutType: LayoutType)
+    @objc optional func onParticipantListVisible()
+    @objc optional func onParticipantListHidden()
+    @objc optional func onPictureInPictureLayoutEnabled()
+    @objc optional func onPictureInPictureLayoutDisabled()
+}
+
+// Registration: CallSession.shared.addLayoutListener(handler)
+```
+
 ## Gotchas
 
 - Register listeners after `joinSession()` succeeds (in the `onSuccess` closure)
 - Use `DispatchQueue.main.async` for UI updates inside listener callbacks
 - A single object can conform to multiple listener protocols
 - Button click events fire before the SDK's default action
-- `Participant` has: `uid`, `name`, `avatar`, `isAudioMuted`, `isVideoPaused`, `isPresenting`
-- V5 SDK does NOT auto-disconnect when remote user leaves — use `ParticipantEventListener.onUserLeft` to track participant count and leave the session when it drops to zero (for 1-on-1 calls). For ringing calls, also use `CometChatCallDelegate.onCallEndedMessageReceived` from the Chat SDK as the primary signal.
+- `Participant` has: `uid`, `name`, `avatar`, `totalAudioMinutes`, `totalVideoMinutes`, `totalDurationInMinutes`, `deviceID`, `isJoined`, `joinedAt`, `mid`, `state`, `leftAt`
+- V5 SDK does NOT auto-disconnect when remote user leaves — use `ParticipantEventListener.onParticipantLeft` to track participant count and leave the session when it drops to zero (for 1-on-1 calls). For ringing calls, also use `CometChatCallDelegate.onCallEndedMessageReceived` from the Chat SDK as the primary signal.
 
 ## Sample App Reference
 

@@ -54,7 +54,7 @@ struct CustomCallControls: View {
     }
 
     private func toggleAudio() {
-        if isAudioMuted { CallSession.shared.unMuteAudio() }
+        if isAudioMuted { CallSession.shared.unmuteAudio() }
         else { CallSession.shared.muteAudio() }
     }
     private func toggleVideo() {
@@ -85,12 +85,12 @@ class MediaHandler: NSObject, MediaEventsListener, ObservableObject {
 
 | Action | Method |
 |--------|--------|
-| Mute/unmute audio | `muteAudio()`, `unMuteAudio()` |
+| Mute/unmute audio | `muteAudio()`, `unmuteAudio()` |
 | Pause/resume video | `pauseVideo()`, `resumeVideo()` |
 | Switch camera | `switchCamera()` |
 | Start/stop recording | `startRecording()`, `stopRecording()` |
-| Pin/unpin participant | `pinParticipant(uid:)`, `unPinParticipant()` |
-| Mute participant | `muteParticipant(uid:)` |
+| Pin/unpin participant | `pinParticipant(participantId:, type:)`, `unpinParticipant()` |
+| Mute participant | `muteParticipant(participantId:)` |
 | Leave session | `leaveSession()` |
 | Enable/disable PiP | `enablePictureInPictureLayout()`, `disablePictureInPictureLayout()` |
 
