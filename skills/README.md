@@ -46,7 +46,7 @@ Each skill has a `description` field in its YAML frontmatter that lists trigger 
 
 ## Compatibility
 
-- CometChat Calls SDK v5 (5.0.0-beta.3+)
+- CometChat Calls SDK v5 (5.0.0+)
 - CometChat Chat SDK v4 (4.0.+) — required for ringing and VoIP
 - Swift 5.0+, SwiftUI
 - iOS 15.0+, Xcode 15+
