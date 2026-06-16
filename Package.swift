@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "CometChatCallsSDK",
     platforms: [
-        .iOS(.v13)
+        .iOS("15.1")
     ],
     products: [
         .library(name: "CometChatCallsSDK", targets: ["CometChatCallsSDK", "WebRTC"])
@@ -13,8 +13,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "CometChatCallsSDK",
-            url: "https://dl.cloudsmith.io/public/cometchat/cometchat/raw/versions/5.0.0/CometChatCallsSDK-5.0.0.zip",
-            checksum: "7369555e599ebccbd9028b3c39e75a58fef1452e5ed9cabb00509ff27fcc2879"
+            url: "https://dl.cloudsmith.io/public/cometchat/cometchat/raw/versions/5.0.1/CometChatCallsSDK-5.0.1.zip",
+            checksum: "8390164fa482b619d0f4e146e92db0538eb1b7b5ea2e8251de9e2848b3642b7c"
         ),
         .binaryTarget(
             name: "WebRTC",
