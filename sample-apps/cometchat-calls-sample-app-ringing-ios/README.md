@@ -5,7 +5,7 @@ A sample iOS app demonstrating the CometChat ringing flow using both the **Chat 
 ## Prerequisites
 
 - Xcode 15 or later
-- iOS 15.0+, Swift 5.0+
+- iOS 15.1+, Swift 5.0+
 - A [CometChat](https://www.cometchat.com/) account with:
   - App ID
   - Auth Key
@@ -68,7 +68,7 @@ cometchat-calls-sample-app-ringing-ios/
 
 ## Dependencies
 
-- `CometChatCallsSDK` v5.0.1 — Call session management (via local SPM package)
+- `CometChatCallsSDK` v5.0.2 — Call session management (via local SPM package)
 - `CometChatSDK` v4.0.+ — Call signaling, user management (via remote SPM)
 
 ## Build It with AI

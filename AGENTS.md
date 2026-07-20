@@ -33,6 +33,6 @@ Load the relevant skill based on the task:
 - `SessionSettingsBuilder()` to configure call settings
 - `CallAppSettingsBuilder().set(appID:).set(region:).build()` for init
 - UIView container for call rendering (wrap in `UIViewRepresentable` for SwiftUI)
-- Language: Swift 5.0+, SwiftUI. Platform: iOS 15.0+
+- Language: Swift 5.0+, SwiftUI. Platform: iOS 15.1+
 - Dependency management: SPM (preferred) or CocoaPods
 - Documentation: https://www.cometchat.com/docs/calls/ios/overview

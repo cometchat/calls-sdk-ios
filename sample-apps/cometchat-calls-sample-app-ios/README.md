@@ -18,7 +18,7 @@ This is a reference application showcasing the integration of [CometChat's iOS C
 Sign up for a [CometChat](https://app.cometchat.com/) account to obtain your app credentials: _`App ID`_, _`Region`_, and _`Auth Key`_
 
 - Xcode 15 or later
-- iOS 15.0+
+- iOS 15.1+
 - Swift 5.0+
 
 
