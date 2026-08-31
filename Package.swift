@@ -13,8 +13,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "CometChatCallsSDK",
-            url: "https://dl.cloudsmith.io/public/cometchat/cometchat/raw/versions/5.0.3/CometChatCallsSDK-5.0.3.zip",
-            checksum: "fe32441f1399c0eefb7172eb3eb275a2ae3b812e6dd8c762482f85bde3f401a5"
+            url: "https://dl.cloudsmith.io/public/cometchat/cometchat/raw/versions/5.0.4/CometChatCallsSDK-5.0.4.zip",
+            checksum: "26d0e27e46f2147eec193bab2d8c3804c104de817c83f8eaada33912d2505902"
         ),
         .binaryTarget(
             name: "WebRTC",
