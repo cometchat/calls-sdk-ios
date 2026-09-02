@@ -31,7 +31,7 @@ In Xcode: File → Add Package Dependencies → Enter:
 https://github.com/cometchat/calls-sdk-ios.git
 ```
 
-Select version `5.0.2` or later. Add `CometChatCallsSDK` to your target.
+Select version `5.0.4` or later. Add `CometChatCallsSDK` to your target.
 
 ### 2. Add via CocoaPods
 
@@ -42,7 +42,7 @@ platform :ios, '15.1'
 
 target 'YourApp' do
   use_frameworks!
-  pod 'CometChatCallsSDK', '~> 5.0.2'
+  pod 'CometChatCallsSDK', '~> 5.0.4'
 end
 ```
 

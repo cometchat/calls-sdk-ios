@@ -68,7 +68,7 @@ cometchat-calls-sample-app-ringing-ios/
 
 ## Dependencies
 
-- `CometChatCallsSDK` v5.0.2 — Call session management (via local SPM package)
+- `CometChatCallsSDK` v5.0.4 — Call session management (via local SPM package)
 - `CometChatSDK` v4.0.+ — Call signaling, user management (via remote SPM)
 
 ## Build It with AI
