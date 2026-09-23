@@ -6,8 +6,8 @@ import PackageDescription
 let package = Package(
     name: "CometChatCallsSDK",
     platforms: [
-        // Only add support for iOS 11 and up.
-        .iOS(.v11)
+        // Minimum iOS matches the shipped binary (MinimumOSVersion 16.0).
+        .iOS("16.0")
     ],
     products: [
         .library(name: "CometChatCallsSDK", targets: ["CometChatCallsSDK","WebRTC"])
@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "CometChatCallsSDK",
-            url: "https://dl.cloudsmith.io/public/cometchat/cometchat/raw/versions/4.2.3/CometChatCallsSDK_4_2_3.xcframework.zip",
-            checksum: "9828f522b64182fe68fb0f78b43e7f8214502fb7f6295f02f6700294a7e83682"
+            url: "https://dl.cloudsmith.io/public/cometchat/cometchat/raw/versions/4.3.4/CometChatCallsSDK_4_3_4.xcframework.zip",
+            checksum: "77f2a8dab6759c3c16fcb2a7958c843e24040cde12e41fb0a74d0e249d51d554"
         ),
         .binaryTarget(
             name: "WebRTC",
