@@ -4,15 +4,18 @@ options:
   deploymentTarget:
     iOS: "15.1"
   xcodeVersion: "16.0"
+# TEMPORARY, for pre-release testing only: the beta Calls SDK 5.1 and Push SDK 2.0 from the private
+# cometchat-team repos. Before release, restore `path: ../../` and the public push-notifications-sdk-ios from 2.0.0.
 packages:
   CometChatCallsSDK:
-    path: ../../
+    url: https://github.com/cometchat-team/calls-core.git
+    exactVersion: 5.1.0-beta.2
   CometChatSDK:
     url: https://github.com/cometchat/chat-sdk-ios.git
     from: 4.1.10
   CometChatPushNotifications:
-    url: https://github.com/cometchat/push-notifications-sdk-ios.git
-    from: 2.0.0
+    url: https://github.com/cometchat-team/push-notifications-sdk-ios.git
+    exactVersion: 2.0.0-beta.2
 targets:
   CometChatCallsRinging:
     type: application
