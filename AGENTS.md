@@ -9,7 +9,7 @@ Load the relevant skill based on the task:
 ### Core
 - `skills/setup/SKILL.md` — SPM/CocoaPods, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions
 - `skills/join-session/SKILL.md` — CometChatCalls.joinSession, SessionSettingsBuilder, UIView container, UIViewRepresentable
-- `skills/ringing-integration/SKILL.md` — Dual SDK (Chat + Calls), initiateCall, accept/reject/cancel
+- `skills/ringing-integration/SKILL.md` — Calls SDK 5.1 initiateCall / endCall, prepared sessions, 1:1 and group ringing
 - `skills/session-settings/SKILL.md` — All SessionSettingsBuilder options: layouts, session type, audio mode, hide buttons
 - `skills/event-listeners/SKILL.md` — SessionStatusListener, ParticipantEventListener, MediaEventsListener, ButtonClickListener
 - `skills/call-logs/SKILL.md` — CallLogRequest, fetching and displaying call history
@@ -19,7 +19,7 @@ Load the relevant skill based on the task:
 - `skills/screen-sharing/SKILL.md` — Screen share viewing, presenter status
 - `skills/picture-in-picture/SKILL.md` — PiP mode configuration
 - `skills/background-handling/SKILL.md` — Background modes, AVAudioSession, keeping calls alive
-- `skills/voip-calling/SKILL.md` — CallKit integration, PushKit, VoIP push notifications
+- `skills/voip-calling/SKILL.md` — Push Notifications SDK 2.0: VoIP push + CallKit in every app state, APNs provider
 - `skills/audio-controls/SKILL.md` — Mute/unmute, audio route switching
 - `skills/video-controls/SKILL.md` — Camera on/off, switch camera
 - `skills/participant-management/SKILL.md` — Participant list, mute/kick, raise hand

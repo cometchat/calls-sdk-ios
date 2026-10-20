@@ -117,3 +117,19 @@ cometchat-calls-sample-app-ringing-ios/
 - `CometChatPushNotificationsCalls` 2.0 — VoIP push, CallKit and ringing
   ([push-notifications-sdk-ios](https://github.com/cometchat/push-notifications-sdk-ios))
 - `CometChatSDK` 4.1.10+ — users, groups and group creation
+
+## Build It with AI
+
+The skills in the repository's [`skills/`](../../skills) folder cover this app. Copy that folder into your
+project and try:
+
+```text
+Using the skills in skills/, build an iOS SwiftUI app with the CometChat Calls SDK 5.1 and the Push
+Notifications SDK 2.0 that rings 1:1 and group calls. Set up the push SDK in didFinishLaunching with my
+APNs provider ID, place calls with CometChatCalls.initiateCall (receiverType user or group), show
+"Calling… / Ringing…" until onParticipantJoined, then join the prepared session by session ID. Cancel with
+endCall after 45 seconds without an answer, and show the call screen from presentCall(_:) when a call is
+answered. Unregister push tokens before logging out, and list call history with CallLogsRequest.
+```
+
+**Skills used:** `setup`, `ringing-integration`, `voip-calling`, `session-settings`, `event-listeners`, `call-logs`

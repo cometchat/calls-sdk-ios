@@ -60,7 +60,7 @@ Dive straight into our sample apps to see the CometChat Calls SDK in action.
 | Sample App | Description |
 |------------|-------------|
 | [Standalone Calling](sample-apps/cometchat-calls-sample-app-ios#readme) | Join or start meetings with a session ID — Calls SDK only |
-| [Ringing](sample-apps/cometchat-calls-sample-app-ringing-ios#readme) | Full ringing flow with user list, incoming/outgoing screens — Chat SDK + Calls SDK |
+| [Ringing](sample-apps/cometchat-calls-sample-app-ringing-ios#readme) | 1:1 and group calls that ring through CallKit in every app state, with call history — Calls SDK 5.1 + Push Notifications SDK 2.0 |
 
 ## 🤖 Agent Skills
 

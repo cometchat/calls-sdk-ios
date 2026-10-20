@@ -20,7 +20,7 @@ cp -r skills/ /path/to/your/project/skills/
 |-------|-------------|
 | `setup` | SPM/CocoaPods, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions |
 | `join-session` | CometChatCalls.joinSession, SessionSettingsBuilder, UIView container |
-| `ringing-integration` | Dual SDK (Chat + Calls), initiateCall, accept/reject/cancel, incoming/outgoing |
+| `ringing-integration` | Calls SDK 5.1 initiateCall / endCall, prepared sessions, 1:1 and group ringing, answered calls |
 | `session-settings` | All SessionSettingsBuilder options: layouts, session type, audio mode, hide buttons |
 | `event-listeners` | SessionStatusListener, ParticipantEventListener, MediaEventsListener, ButtonClickListener |
 | `call-logs` | CallLogRequest, fetching and displaying call history |
@@ -33,7 +33,7 @@ cp -r skills/ /path/to/your/project/skills/
 | `screen-sharing` | Screen share viewing, presenter status |
 | `picture-in-picture` | PiP mode configuration |
 | `background-handling` | Background modes, AVAudioSession, keeping calls alive |
-| `voip-calling` | CallKit, PushKit, VoIP push notifications |
+| `voip-calling` | Push Notifications SDK 2.0: VoIP push + CallKit in every app state, APNs provider, tokens |
 | `audio-controls` | Mute/unmute, audio route switching |
 | `video-controls` | Camera on/off, switch camera |
 | `participant-management` | Participant list, mute/kick, raise hand |

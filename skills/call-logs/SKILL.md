@@ -83,4 +83,4 @@ for callLog in callLogs {
 
 ## Sample App Reference
 
-- `CallLogsView.swift` — Fetching and displaying call history in a SwiftUI List
+- `HistoryView.swift` (ringing sample) — paginated call history, reloaded on each visit, with a details screen
