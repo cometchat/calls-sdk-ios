@@ -4,6 +4,7 @@ struct AppCredentialsView: View {
     @EnvironmentObject var appState: AppState
     @State private var appID = ""
     @State private var authKey = ""
+    @State private var pushProviderID = ""
     @State private var selectedRegion: String?
     @State private var isLoading = false
 
@@ -80,6 +81,16 @@ struct AppCredentialsView: View {
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
 
+            // Push Provider ID
+            SectionLabel(text: "Push Provider ID (optional)")
+                .padding(.top, 20)
+                .padding(.bottom, 8)
+
+            TextField("APNs provider ID for incoming calls", text: $pushProviderID)
+                .textFieldStyle(RoundedTextFieldStyle())
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+
             // Continue
             Button { continueAction() } label: {
                 Text("Continue")
@@ -108,7 +119,13 @@ struct AppCredentialsView: View {
         let trimmedAppID = appID.trimmingCharacters(in: .whitespaces)
         let trimmedAuthKey = authKey.trimmingCharacters(in: .whitespaces)
 
-        appState.saveCredentials(appID: trimmedAppID, region: region, authKey: trimmedAuthKey)
+        appState.saveCredentials(
+            appID: trimmedAppID,
+            region: region,
+            authKey: trimmedAuthKey,
+            pushProviderID: pushProviderID.trimmingCharacters(in: .whitespaces)
+        )
+        PushSetup.initializeIfNeeded()
         appState.initializeBothSDKs(appID: trimmedAppID, region: region) { success in
             isLoading = false
             if success { appState.currentScreen = .login }

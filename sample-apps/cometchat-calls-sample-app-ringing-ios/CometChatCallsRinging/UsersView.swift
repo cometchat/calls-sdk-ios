@@ -1,5 +1,7 @@
 import SwiftUI
+import AVFoundation
 import CometChatSDK
+import CometChatCallsSDK
 
 struct UsersView: View {
     @EnvironmentObject var appState: AppState
@@ -55,9 +57,9 @@ struct UsersView: View {
                     LazyVStack(spacing: 0) {
                         ForEach(users, id: \.uid) { user in
                             UserRow(user: user, onAudioCall: {
-                                initiateCall(user: user, type: CometChat.CallType.audio)
+                                startCall(user: user, callType: CallSessionType.audio)
                             }, onVideoCall: {
-                                initiateCall(user: user, type: CometChat.CallType.video)
+                                startCall(user: user, callType: CallSessionType.video)
                             })
 
                             Divider()
@@ -147,24 +149,45 @@ struct UsersView: View {
         })
     }
 
-    // MARK: - Initiate Call
+    // MARK: - Start Call
 
-    private func initiateCall(user: User, type: CometChat.CallType) {
-        let call = Call(receiverId: user.uid ?? "", callType: type, receiverType: .user)
+    /// Opens the outgoing call screen, which places the call. `initiateCall` prepares the media
+    /// session straight away, so the microphone (and the camera for a video call) must be granted
+    /// first.
+    private func startCall(user: User, callType: String) {
+        guard appState.outgoingCall == nil, let uid = user.uid else { return }
+        let isVideo = callType == CallSessionType.video
+        CallPermissions.request(video: isVideo) { granted in
+            guard granted else {
+                appState.errorMessage = isVideo
+                    ? "Allow microphone and camera access in Settings to make video calls."
+                    : "Allow microphone access in Settings to make calls."
+                return
+            }
+            appState.outgoingCall = OutgoingCallViewModel(
+                calleeUID: uid,
+                calleeName: user.name ?? uid,
+                calleeAvatarURL: user.avatar,
+                callType: callType
+            )
+        }
+    }
+}
 
-        CometChat.initiateCall(call: call) { outgoingCall in
-            DispatchQueue.main.async {
-                appState.outgoingSessionID = outgoingCall?.sessionID
-                appState.outgoingReceiverName = user.name
-                appState.outgoingReceiverAvatar = user.avatar
-                appState.outgoingCallType = type == .audio ? "audio" : "video"
-                appState.currentScreen = .outgoingCall
-                print("[UsersView] Call initiated, session: \(outgoingCall?.sessionID ?? "")")
-            }
-        } onError: { error in
-            DispatchQueue.main.async {
-                appState.errorMessage = "Call failed: \(error?.errorDescription ?? "Unknown error")"
-            }
+// MARK: - Call Permissions
+
+enum CallPermissions {
+    /// Asks for the microphone, and the camera when `video` is set. Completes on the main queue.
+    static func request(video: Bool, completion: @escaping (Bool) -> Void) {
+        request(.audio) { micGranted in
+            guard micGranted, video else { return completion(micGranted) }
+            request(.video, completion: completion)
+        }
+    }
+
+    private static func request(_ mediaType: AVMediaType, completion: @escaping (Bool) -> Void) {
+        AVCaptureDevice.requestAccess(for: mediaType) { granted in
+            DispatchQueue.main.async { completion(granted) }
         }
     }
 }

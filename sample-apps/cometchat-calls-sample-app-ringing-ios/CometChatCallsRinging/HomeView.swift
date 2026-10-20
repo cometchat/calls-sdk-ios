@@ -1,8 +1,9 @@
 import SwiftUI
-import AVFoundation
 
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
+    /// The answered incoming call, published by the push SDK's delegate in any app state.
+    @ObservedObject private var incomingCallPresenter = IncomingCallPresenter.shared
     @State private var showLogoutMenu = false
     @State private var selectedTab = 0
 
@@ -32,6 +33,16 @@ struct HomeView: View {
                         .tag(1)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
+                // Attached here rather than beside the outgoing cover below: two
+                // `fullScreenCover`s on the same view do not both present reliably.
+                .fullScreenCover(isPresented: incomingCallPresented) {
+                    if let viewModel = incomingCallPresenter.callSessionViewModel {
+                        // Keyed by session: a call switched to with End & Accept gets a fresh
+                        // screen, whose container is what starts the join.
+                        CallSessionView(viewModel: viewModel)
+                            .id(viewModel.sessionId)
+                    }
+                }
 
                 // Bottom tab bar
                 HStack(spacing: 0) {
@@ -52,7 +63,11 @@ struct HomeView: View {
                 logoutOverlay
             }
         }
-        .onAppear { requestPermissions() }
+        .fullScreenCover(isPresented: outgoingCallPresented) {
+            if let viewModel = appState.outgoingCall {
+                OutgoingCallView(viewModel: viewModel)
+            }
+        }
         .alert("Error", isPresented: .init(
             get: { appState.errorMessage != nil },
             set: { if !$0 { appState.errorMessage = nil } }
@@ -122,9 +137,22 @@ struct HomeView: View {
         }
     }
 
-    private func requestPermissions() {
-        AVCaptureDevice.requestAccess(for: .video) { _ in }
-        AVCaptureDevice.requestAccess(for: .audio) { _ in }
+    // MARK: - Call Screens
+
+    /// Only ever set to `false` by the call screen taking itself down, which the presenter turns
+    /// into ending the call on CallKit.
+    private var incomingCallPresented: Binding<Bool> {
+        Binding(
+            get: { incomingCallPresenter.callSessionViewModel != nil },
+            set: { if !$0 { incomingCallPresenter.dismiss() } }
+        )
+    }
+
+    private var outgoingCallPresented: Binding<Bool> {
+        Binding(
+            get: { appState.outgoingCall != nil },
+            set: { if !$0 { appState.outgoingCall = nil } }
+        )
     }
 }
 

@@ -18,20 +18,21 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera access is required for video calls</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone access is required for voice and video calls</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>voip</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>
