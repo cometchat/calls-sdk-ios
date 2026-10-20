@@ -34,12 +34,23 @@ connects as soon as it is answered.
 `aps-environment` is `development`, matching a development provisioning profile. A TestFlight or App Store build
 needs `production`.
 
+## Screens
+
+- **Users**: everyone in the app, with presence. The phone and video buttons ring that person.
+- **Groups**: the groups you have joined. The buttons ring every member; whoever answers joins the same
+  session, and the call carries on when one of them leaves. **+** opens **New group call**, which creates a
+  private group with the people you pick and rings it.
+- **History**: your call logs: who, voice/video/group, the outcome, the participants and the duration.
+  Tap a call for its details and to call back or ring the group again. Pull to refresh.
+- **Profile**: tap your avatar in the top-right corner. It shows your UID, the System / Light / Dark
+  appearance, the app's credentials and SDK versions, and **Sign out**.
+
 ## How a call works
 
 **Placing a call** (`OutgoingCallViewModel`)
 
-1. `CometChatCalls.initiateCall(receiver:options:)` creates the call, rings the callee and starts preparing the
-   session in the background. The session settings are frozen at this point, so the call screen builds the same
+1. `CometChatCalls.initiateCall(receiver:options:)` creates the call, rings the callee (every member, with
+   `receiverType` group) and starts preparing the session in the background. The session settings are frozen at this point, so the call screen builds the same
    ones (`CallSettings`).
 2. `onParticipantConnected` — the callee's phone has the session: "Calling…" becomes "Ringing…".
 3. `onParticipantJoined` — the callee answered: the call screen joins the prepared session by its ID.
@@ -71,26 +82,30 @@ for the user who left.
 ```
 cometchat-calls-sample-app-ringing-ios/
 ├── CometChatCallsRinging/
-│   ├── CometChatCallsRingingApp.swift  # @main entry point, AppDelegate, push SDK setup
+│   ├── CometChatCallsRingingApp.swift  # @main entry point, AppDelegate, push SDK setup, appearance
 │   ├── AppConstants.swift              # Credentials (optional)
 │   ├── Credentials.swift               # Credentials in use: AppConstants or the ones entered
-│   ├── AppState.swift                  # SDK init, login, logout, navigation
+│   ├── AppState.swift                  # SDK init, login, logout, navigation, starting a call
+│   ├── CallPermissions.swift           # Microphone / camera before a call is placed
 │   ├── CallPushDelegate.swift          # Push SDK delegate: answered and ended calls
 │   ├── IncomingCallPresenter.swift     # Answered call → call screen
 │   ├── OutgoingCall.swift              # Outgoing call state machine
-│   ├── OutgoingCallViewModel.swift     # Places the call and feeds the state machine
+│   ├── OutgoingCallViewModel.swift     # Places a user or group call and feeds the state machine
 │   ├── OutgoingCallView.swift          # "Calling… / Ringing…" screen
 │   ├── CallSessionViewModel.swift      # Joined call + shared session settings
 │   ├── CallSessionView.swift           # Call screen
-│   ├── Styles.swift                    # Colors, buttons, text fields
+│   ├── HomeView.swift                  # Tabs, profile button, the call screens
+│   ├── UsersView.swift                 # Users tab
+│   ├── GroupsView.swift                # Groups tab + New group call
+│   ├── HistoryView.swift               # History tab + call details
+│   ├── ProfileView.swift               # Profile and settings
+│   ├── AvatarView.swift                # Avatar with initials fallback and presence dot
+│   ├── Styles.swift                    # Light/dark colour tokens, type, buttons, fields
 │   ├── SampleUser.swift                # Sample user model + fetch
 │   ├── RootView.swift                  # Screen router
 │   ├── SplashView.swift                # Bootstrap screen
 │   ├── AppCredentialsView.swift        # Region + credentials input
-│   ├── LoginView.swift                 # Sample user / UID login
-│   ├── HomeView.swift                  # Tabs (Users + Call Logs) and the call screens
-│   ├── UsersView.swift                 # User list with call buttons
-│   └── CallLogsView.swift              # Call history
+│   └── LoginView.swift                 # Sample user / UID login
 ├── CometChatCallsRinging.xcodeproj/
 ├── project.yml                         # XcodeGen spec the project is generated from
 └── README.md
@@ -101,4 +116,4 @@ cometchat-calls-sample-app-ringing-ios/
 - `CometChatCallsSDK` 5.1 — calls, sessions and call logs (local SPM package at the repository root)
 - `CometChatPushNotificationsCalls` 2.0 — VoIP push, CallKit and ringing
   ([push-notifications-sdk-ios](https://github.com/cometchat/push-notifications-sdk-ios))
-- `CometChatSDK` 4.1.10+ — user list
+- `CometChatSDK` 4.1.10+ — users, groups and group creation

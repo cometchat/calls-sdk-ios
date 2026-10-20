@@ -70,12 +70,19 @@ enum PushSetup {
 struct CometChatCallsRingingApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var appState = AppState()
+    @AppStorage(AppearancePreference.storageKey) private var appearanceRaw = AppearancePreference.system.rawValue
+
+    private var appearance: AppearancePreference {
+        AppearancePreference(rawValue: appearanceRaw) ?? .system
+    }
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(appState)
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(appearance.colorScheme)
+                .onAppear { appearance.apply() }
+                .onChange(of: appearanceRaw) { _ in appearance.apply() }
         }
     }
 }

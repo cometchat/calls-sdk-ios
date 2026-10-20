@@ -20,6 +20,32 @@ class AppState: ObservableObject {
     /// The call being placed, shown over the home screen while it is non-nil.
     @Published var outgoingCall: OutgoingCallViewModel?
 
+    // MARK: - Placing a Call
+
+    /// Opens the outgoing call screen for a user or a group, which places the call.
+    /// `initiateCall` prepares the media session straight away, so the microphone (and the
+    /// camera for a video call) must be granted first.
+    func startCall(receiverID: String, name: String, avatarURL: String?, callType: String, isGroup: Bool) {
+        guard outgoingCall == nil else { return } // a second tap while the first is in flight
+        let isVideo = callType == CallSessionType.video
+        CallPermissions.request(video: isVideo) { [weak self] granted in
+            guard let self, self.outgoingCall == nil else { return }
+            guard granted else {
+                self.errorMessage = isVideo
+                    ? "Allow microphone and camera access in Settings to make video calls."
+                    : "Allow microphone access in Settings to make calls."
+                return
+            }
+            self.outgoingCall = OutgoingCallViewModel(
+                calleeUID: receiverID,
+                calleeName: name,
+                calleeAvatarURL: avatarURL,
+                callType: callType,
+                isGroup: isGroup
+            )
+        }
+    }
+
     var hasCredentials: Bool { Credentials.isComplete }
 
     func saveCredentials(appID: String, region: String, authKey: String, pushProviderID: String) {

@@ -6,10 +6,7 @@ struct SplashView: View {
     var body: some View {
         VStack(spacing: 32) {
             Spacer()
-            Image("cometchat_logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 150, height: 150)
+            AppLogo(size: 30)
             ProgressView()
                 .tint(.accentPurple)
             Spacer()

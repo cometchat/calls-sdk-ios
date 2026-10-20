@@ -12,13 +12,17 @@
 		1997BAD2E3770B720F9E16D3 /* CallSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CE99B64E22F1A96C2A362F /* CallSessionView.swift */; };
 		2B9C7EB267F13E1FF563B5CF /* CometChatSDK in Frameworks */ = {isa = PBXBuildFile; productRef = AEC3FB4E96E5CD8FBC63F02A /* CometChatSDK */; };
 		3342D6866E6D45DE28B340A9 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDCA9F692EF5EE8CD364074 /* Styles.swift */; };
+		35FCD72660025BF49CAB49EF /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21144042BA63DF4247515435 /* GroupsView.swift */; };
+		3668B661D8A2299540050EF1 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7BEF88B9714ACB3880D8C9 /* AvatarView.swift */; };
+		3A9D9E3D7A6E32843D2007B0 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51BCCF72AD76DC4068D1198 /* ProfileView.swift */; };
+		5D63195AEED026E47C1D83EF /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621FB96872B0414537BB139 /* HistoryView.swift */; };
 		60312956F0C16C199DD64CAD /* AppCredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485A38A41D46BF926319446B /* AppCredentialsView.swift */; };
 		6BE4DF2D18EE02E036F1537A /* OutgoingCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22F05FD6421A1BD24B605E6 /* OutgoingCallView.swift */; };
 		71863BEDAC443733538EC602 /* OutgoingCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D2F17847419B09793AB2B7 /* OutgoingCall.swift */; };
 		73ABEB6859D615CEAF99406C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2394D59C81B7102D0AEF91 /* LoginView.swift */; };
 		7A2341AEAD89CAB91C3BFDDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D25D1019C8D5939A12188402 /* Assets.xcassets */; };
 		7E707D8746ED091D9E532AE8 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89C88470AB5FC16ABE752E5 /* RootView.swift */; };
-		875EC91195C5660A040998A6 /* CallLogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E767414C4DBE9A3590E4DC0 /* CallLogsView.swift */; };
+		81E5B027FE547C18CF77291C /* CallPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6772DAC2F2C19DCAC1896CB3 /* CallPermissions.swift */; };
 		92565FE8947ACE815F3FF43D /* CometChatCallsRingingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD30DB9E40703B543649A906 /* CometChatCallsRingingApp.swift */; };
 		93736EFD6ECD293271347F72 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765506554FFE6F2709B2556D /* AppConstants.swift */; };
 		9861FAC8DDEDDE5FA15A82E4 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED75D6B927FD21F34C17609F /* SplashView.swift */; };
@@ -35,16 +39,18 @@
 
 /* Begin PBXFileReference section */
 		1C462009978BD3EC36317770 /* CometChatCallsRinging.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CometChatCallsRinging.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21144042BA63DF4247515435 /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
 		24544014CD3FC555D8DDF255 /* CometChatCallsRinging.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CometChatCallsRinging.entitlements; sourceTree = "<group>"; };
 		2FFF3E94DA4DD72A8036D914 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		39D54A494131179653B4D369 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		46EF9309CFB5568810DC645E /* CallSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSessionViewModel.swift; sourceTree = "<group>"; };
 		485A38A41D46BF926319446B /* AppCredentialsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCredentialsView.swift; sourceTree = "<group>"; };
 		5BDCA9F692EF5EE8CD364074 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		6772DAC2F2C19DCAC1896CB3 /* CallPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallPermissions.swift; sourceTree = "<group>"; };
 		765506554FFE6F2709B2556D /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
-		9E767414C4DBE9A3590E4DC0 /* CallLogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallLogsView.swift; sourceTree = "<group>"; };
 		A7C21EE2B1352E0E98529C3F /* calls-sdk-ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "calls-sdk-ios"; path = ../..; sourceTree = SOURCE_ROOT; };
 		A8D2F17847419B09793AB2B7 /* OutgoingCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingCall.swift; sourceTree = "<group>"; };
+		B621FB96872B0414537BB139 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B89C88470AB5FC16ABE752E5 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		C28FDAB4BABBDCE570C4EC20 /* IncomingCallPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingCallPresenter.swift; sourceTree = "<group>"; };
 		C9CE99B64E22F1A96C2A362F /* CallSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSessionView.swift; sourceTree = "<group>"; };
@@ -56,8 +62,10 @@
 		DD30DB9E40703B543649A906 /* CometChatCallsRingingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CometChatCallsRingingApp.swift; sourceTree = "<group>"; };
 		DDD8B0959E00A3263B80631C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EB2394D59C81B7102D0AEF91 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		EB7BEF88B9714ACB3880D8C9 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		ED75D6B927FD21F34C17609F /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F22F05FD6421A1BD24B605E6 /* OutgoingCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingCallView.swift; sourceTree = "<group>"; };
+		F51BCCF72AD76DC4068D1198 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,19 +114,23 @@
 				485A38A41D46BF926319446B /* AppCredentialsView.swift */,
 				2FFF3E94DA4DD72A8036D914 /* AppState.swift */,
 				D25D1019C8D5939A12188402 /* Assets.xcassets */,
-				9E767414C4DBE9A3590E4DC0 /* CallLogsView.swift */,
+				EB7BEF88B9714ACB3880D8C9 /* AvatarView.swift */,
+				6772DAC2F2C19DCAC1896CB3 /* CallPermissions.swift */,
 				D3D48BB1FE9310B3CABD6457 /* CallPushDelegate.swift */,
 				C9CE99B64E22F1A96C2A362F /* CallSessionView.swift */,
 				46EF9309CFB5568810DC645E /* CallSessionViewModel.swift */,
 				24544014CD3FC555D8DDF255 /* CometChatCallsRinging.entitlements */,
 				DD30DB9E40703B543649A906 /* CometChatCallsRingingApp.swift */,
 				39D54A494131179653B4D369 /* Credentials.swift */,
+				21144042BA63DF4247515435 /* GroupsView.swift */,
+				B621FB96872B0414537BB139 /* HistoryView.swift */,
 				DDD8B0959E00A3263B80631C /* HomeView.swift */,
 				C28FDAB4BABBDCE570C4EC20 /* IncomingCallPresenter.swift */,
 				EB2394D59C81B7102D0AEF91 /* LoginView.swift */,
 				A8D2F17847419B09793AB2B7 /* OutgoingCall.swift */,
 				F22F05FD6421A1BD24B605E6 /* OutgoingCallView.swift */,
 				DAFF8FC31C5D020F70C2711A /* OutgoingCallViewModel.swift */,
+				F51BCCF72AD76DC4068D1198 /* ProfileView.swift */,
 				B89C88470AB5FC16ABE752E5 /* RootView.swift */,
 				D90E1D0645D0986655409A0A /* SampleUser.swift */,
 				ED75D6B927FD21F34C17609F /* SplashView.swift */,
@@ -210,18 +222,22 @@
 				93736EFD6ECD293271347F72 /* AppConstants.swift in Sources */,
 				60312956F0C16C199DD64CAD /* AppCredentialsView.swift in Sources */,
 				E6F4363D574334992291280F /* AppState.swift in Sources */,
-				875EC91195C5660A040998A6 /* CallLogsView.swift in Sources */,
+				3668B661D8A2299540050EF1 /* AvatarView.swift in Sources */,
+				81E5B027FE547C18CF77291C /* CallPermissions.swift in Sources */,
 				A3879CA9A5252F3327896A73 /* CallPushDelegate.swift in Sources */,
 				1997BAD2E3770B720F9E16D3 /* CallSessionView.swift in Sources */,
 				C1398FE5E9F9D86AA23D8CE0 /* CallSessionViewModel.swift in Sources */,
 				92565FE8947ACE815F3FF43D /* CometChatCallsRingingApp.swift in Sources */,
 				DB70F4B28D94F2086757D3ED /* Credentials.swift in Sources */,
+				35FCD72660025BF49CAB49EF /* GroupsView.swift in Sources */,
+				5D63195AEED026E47C1D83EF /* HistoryView.swift in Sources */,
 				DC5EE21ABBB62F0F040F30CD /* HomeView.swift in Sources */,
 				0608ECB056D515060AE0BD7A /* IncomingCallPresenter.swift in Sources */,
 				73ABEB6859D615CEAF99406C /* LoginView.swift in Sources */,
 				71863BEDAC443733538EC602 /* OutgoingCall.swift in Sources */,
 				6BE4DF2D18EE02E036F1537A /* OutgoingCallView.swift in Sources */,
 				D029661F6C7D65B341C3D7AC /* OutgoingCallViewModel.swift in Sources */,
+				3A9D9E3D7A6E32843D2007B0 /* ProfileView.swift in Sources */,
 				7E707D8746ED091D9E532AE8 /* RootView.swift in Sources */,
 				B27029BBCE151C1E57A41656 /* SampleUser.swift in Sources */,
 				9861FAC8DDEDDE5FA15A82E4 /* SplashView.swift in Sources */,

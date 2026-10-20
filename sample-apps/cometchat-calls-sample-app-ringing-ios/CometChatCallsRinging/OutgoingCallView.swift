@@ -59,19 +59,8 @@ struct OutgoingCallView: View {
     }
 
     private var avatar: some View {
-        AsyncImage(url: URL(string: viewModel.calleeAvatarURL ?? "")) { image in
-            image.resizable().scaledToFill()
-        } placeholder: {
-            Circle()
-                .fill(Color.borderPrimary)
-                .overlay(
-                    Text(String(viewModel.calleeName.prefix(1)).uppercased())
-                        .font(.system(size: 44, weight: .semibold))
-                        .foregroundColor(.textSecondary)
-                )
-        }
-        .frame(width: 128, height: 128)
-        .clipShape(Circle())
+        AvatarView(name: viewModel.calleeName, avatarURL: viewModel.calleeAvatarURL, size: 128,
+                   initialsCount: viewModel.isGroup ? 2 : 1)
     }
 
     private var endCallButton: some View {

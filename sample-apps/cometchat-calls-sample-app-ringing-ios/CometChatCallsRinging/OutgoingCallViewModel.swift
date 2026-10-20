@@ -3,8 +3,8 @@ import CometChatCallsSDK
 
 // MARK: - OutgoingCallViewModel
 
-/// Places a 1:1 call and drives the "Calling… / Ringing…" screen until the callee accepts it or
-/// it is over.
+/// Places a call to a user or a whole group and drives the "Calling… / Ringing…" screen until
+/// someone accepts it or it is over.
 ///
 /// Every decision lives in `OutgoingCall`; this type only feeds it (the `initiateCall` result,
 /// the SDK's participant and session events, the end button, the ring timer) and renders what it
@@ -24,10 +24,22 @@ final class OutgoingCallViewModel: ObservableObject {
     let calleeAvatarURL: String?
     /// `CallSessionType.audio` or `CallSessionType.video`.
     let callType: String
+    /// Rings every member of the group `calleeUID` names, rather than one user.
+    let isGroup: Bool
 
     var isVideo: Bool { callType == CallSessionType.video }
 
-    var header: String { isVideo ? "Video call" : "Voice call" }
+    /// A 1:1 call ends for both sides when either leaves; a group call outlives any one member.
+    var isPeerCall: Bool { !isGroup }
+
+    var header: String {
+        switch (isGroup, isVideo) {
+        case (true, true): return "Group video call"
+        case (true, false): return "Group voice call"
+        case (false, true): return "Video call"
+        case (false, false): return "Voice call"
+        }
+    }
 
     // MARK: - Published
 
@@ -64,11 +76,12 @@ final class OutgoingCallViewModel: ObservableObject {
 
     // MARK: - Init
 
-    init(calleeUID: String, calleeName: String, calleeAvatarURL: String?, callType: String) {
+    init(calleeUID: String, calleeName: String, calleeAvatarURL: String?, callType: String, isGroup: Bool = false) {
         self.calleeUID = calleeUID
         self.calleeName = calleeName
         self.calleeAvatarURL = calleeAvatarURL
         self.callType = callType
+        self.isGroup = isGroup
     }
 
     deinit {
@@ -101,9 +114,9 @@ final class OutgoingCallViewModel: ObservableObject {
 
         let options = InitiateCallOptions()
         options.type = callType
-        options.receiverType = CallReceiverType.user
+        options.receiverType = isGroup ? CallReceiverType.group : CallReceiverType.user
         // Frozen on the prepared session: the join after an accept runs with these.
-        options.sessionSettings = CallSettings.make(title: calleeName, isVideoCall: isVideo, isPeerCall: true)
+        options.sessionSettings = CallSettings.make(title: calleeName, isVideoCall: isVideo, isPeerCall: isPeerCall)
 
         print("[OutgoingCallViewModel] Calling \(calleeUID) (\(callType))")
         CometChatCalls.initiateCall(receiver: calleeUID, options: options) { [weak self] initiatedCall in
@@ -200,7 +213,7 @@ final class OutgoingCallViewModel: ObservableObject {
             sessionId: sessionID,
             title: calleeName,
             isVideoCall: isVideo,
-            isPeerCall: true
+            isPeerCall: isPeerCall
         )
     }
 

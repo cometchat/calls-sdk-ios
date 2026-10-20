@@ -1,66 +1,37 @@
 import SwiftUI
+import CometChatSDK
 
+/// The signed-in shell: Users, Groups and History tabs, with the call screens on top.
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
     /// The answered incoming call, published by the push SDK's delegate in any app state.
     @ObservedObject private var incomingCallPresenter = IncomingCallPresenter.shared
-    @State private var showLogoutMenu = false
-    @State private var selectedTab = 0
+    @State private var selectedTab = Tab.users
+
+    enum Tab: Hashable { case users, groups, history }
 
     var body: some View {
         ZStack {
-            Color.appBackground.ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                // Top bar
-                HStack {
-                    Image("cometchat_logo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 28)
-                    Spacer()
-                    logoutButton
+            TabView(selection: $selectedTab) {
+                tab("Users", systemImage: "person.2.fill", tag: .users) { UsersView() }
+                tab("Groups", systemImage: "person.3.fill", tag: .groups) { GroupsView() }
+                tab("History", systemImage: "clock.fill", tag: .history) { HistoryView() }
+            }
+            .tint(.brandAccent)
+            // Attached here rather than beside the outgoing cover below: two
+            // `fullScreenCover`s on the same view do not both present reliably.
+            .fullScreenCover(isPresented: incomingCallPresented) {
+                if let viewModel = incomingCallPresenter.callSessionViewModel {
+                    // Keyed by session: a call switched to with End & Accept gets a fresh
+                    // screen, whose container is what starts the join.
+                    CallSessionView(viewModel: viewModel)
+                        .id(viewModel.sessionId)
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 10)
-                .padding(.bottom, 8)
-
-                // Tab content
-                TabView(selection: $selectedTab) {
-                    UsersView()
-                        .tag(0)
-                    CallLogsView()
-                        .tag(1)
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                // Attached here rather than beside the outgoing cover below: two
-                // `fullScreenCover`s on the same view do not both present reliably.
-                .fullScreenCover(isPresented: incomingCallPresented) {
-                    if let viewModel = incomingCallPresenter.callSessionViewModel {
-                        // Keyed by session: a call switched to with End & Accept gets a fresh
-                        // screen, whose container is what starts the join.
-                        CallSessionView(viewModel: viewModel)
-                            .id(viewModel.sessionId)
-                    }
-                }
-
-                // Bottom tab bar
-                HStack(spacing: 0) {
-                    TabBarButton(icon: "person.2.fill", title: "Users", isSelected: selectedTab == 0) {
-                        selectedTab = 0
-                    }
-                    TabBarButton(icon: "clock.fill", title: "Call Logs", isSelected: selectedTab == 1) {
-                        selectedTab = 1
-                    }
-                }
-                .padding(.top, 8)
-                .padding(.bottom, 4)
-                .background(Color.cardBackground)
             }
 
-            // Logout dropdown
-            if showLogoutMenu {
-                logoutOverlay
+            if appState.isLoading {
+                Color.scrim.ignoresSafeArea()
+                ProgressView().tint(.onAccent).scaleEffect(1.4)
             }
         }
         .fullScreenCover(isPresented: outgoingCallPresented) {
@@ -78,63 +49,17 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - Logout Button
-
-    private var logoutButton: some View {
-        Button {
-            withAnimation(.easeInOut(duration: 0.2)) { showLogoutMenu.toggle() }
-        } label: {
-            Circle()
-                .fill(Color.accentPurple)
-                .frame(width: 36, height: 36)
-                .overlay(
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 16))
-                        .foregroundColor(.white)
-                )
-        }
-    }
-
-    // MARK: - Logout Overlay
-
-    private var logoutOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.01)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    withAnimation(.easeInOut(duration: 0.2)) { showLogoutMenu = false }
+    private func tab<Content: View>(_ title: String, systemImage: String, tag: Tab,
+                                    @ViewBuilder content: () -> Content) -> some View {
+        let screen = content()
+        return AppNavigation(title: title) {
+            screen
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) { ProfileButton() }
                 }
-
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) { showLogoutMenu = false }
-                        appState.logout()
-                    } label: {
-                        HStack(spacing: 8) {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .font(.system(size: 14))
-                            Text("Logout")
-                                .font(.system(size: 16))
-                        }
-                        .foregroundColor(.textPrimary)
-                        .padding(16)
-                    }
-                    .frame(width: 180)
-                    .background(Color.cardBackground)
-                    .cornerRadius(12)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.borderPrimary, lineWidth: 1)
-                    )
-                    .shadow(color: .black.opacity(0.4), radius: 8, x: 0, y: 4)
-                    .padding(.trailing, 16)
-                }
-                .padding(.top, 54)
-                Spacer()
-            }
         }
+        .tabItem { Label(title, systemImage: systemImage) }
+        .tag(tag)
     }
 
     // MARK: - Call Screens
@@ -156,25 +81,38 @@ struct HomeView: View {
     }
 }
 
-// MARK: - Tab Bar Button
-
-private struct TabBarButton: View {
-    let icon: String
-    let title: String
-    let isSelected: Bool
-    let action: () -> Void
-
+/// The signed-in user's avatar in the header; opens the Profile screen.
+private struct ProfileButton: View {
     var body: some View {
-        Button(action: action) {
-            VStack(spacing: 4) {
-                Image(systemName: icon)
-                    .font(.system(size: 20))
-                Text(title)
-                    .font(.system(size: 11, weight: .medium))
-            }
-            .foregroundColor(isSelected ? .accentPurple : .textSecondary)
-            .frame(maxWidth: .infinity)
+        let user = CometChat.getLoggedInUser()
+        NavigationLink { ProfileView() } label: {
+            AvatarView(name: user?.name, avatarURL: user?.avatar, size: 32, initialsCount: 2)
+                .frame(width: 44, height: 44)
+                .contentShape(Circle())
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Profile")
+    }
+}
+
+/// A navigation container: `NavigationStack` where available, the stack-style
+/// `NavigationView` on iOS 15.
+struct AppNavigation<Content: View>: View {
+    let title: String
+    var displayMode: NavigationBarItem.TitleDisplayMode = .large
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        if #available(iOS 16.0, *) {
+            NavigationStack { titled }
+        } else {
+            NavigationView { titled }.navigationViewStyle(.stack)
+        }
+    }
+
+    private var titled: some View {
+        content()
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(displayMode)
     }
 }
