@@ -34,5 +34,5 @@ Load the relevant skill based on the task:
 - `CallAppSettingsBuilder().set(appID:).set(region:).build()` for init
 - UIView container for call rendering (wrap in `UIViewRepresentable` for SwiftUI)
 - Language: Swift 5.0+, SwiftUI. Platform: iOS 15.1+
-- Dependency management: SPM (preferred) or CocoaPods
+- Dependency management: SPM (preferred) or CocoaPods — Calls SDK 5.1.0 and Push Notifications SDK 2.0 are not on the CocoaPods trunk yet, so use SPM until they are
 - Documentation: https://www.cometchat.com/docs/calls/ios/overview

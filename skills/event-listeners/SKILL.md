@@ -114,7 +114,7 @@ CallSession.shared.addButtonClickListener(handler)
 - A single object can conform to multiple listener protocols
 - Button click events fire before the SDK's default action
 - `Participant` has: `uid`, `name`, `avatar`, `totalAudioMinutes`, `totalVideoMinutes`, `totalDurationInMinutes`, `deviceID`, `isJoined`, `joinedAt`, `mid`, `state`, `leftAt`
-- V5 SDK does NOT auto-disconnect when remote user leaves — use `ParticipantEventListener.onParticipantLeft` to track participant count and leave the session when it drops to zero (for 1-on-1 calls). For ringing calls, also use `CometChatCallDelegate.onCallEndedMessageReceived` from the Chat SDK as the primary signal.
+- A 1:1 call joined with `setPeerCall(true)` ends for both sides when either one leaves; a group call (`setPeerCall(false)`) carries on for whoever is left. Take your call screen down on `SessionStatusListener.onSessionLeft` / `onConnectionClosed` (and `onSessionTimedOut`). For calls that ring through the Push Notifications SDK 2.0, the end of the call also arrives in `CometChatPushNotificationsCallsDelegate.callDidEnd(_:reason:)`. The Chat SDK's call listeners are not part of this flow (see the `ringing-integration` skill).
 
 ## Sample App Reference
 

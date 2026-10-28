@@ -12,7 +12,7 @@ Install and initialize the CometChat Calls SDK v5 in an iOS project. Covers Swif
 
 ## Prerequisites
 
-- iOS 15.1+, Xcode 15+, Swift 5.0+
+- iOS 15.1+, Xcode 16.4+, Swift 5.0+
 - App ID and Region from CometChat Dashboard
 
 ## Key Imports
@@ -34,6 +34,8 @@ https://github.com/cometchat/calls-sdk-ios.git
 Select version `5.1.0` or later. Add `CometChatCallsSDK` to your target.
 
 ### 2. Add via CocoaPods
+
+Version 5.1.0 is not on the CocoaPods trunk yet. Use Swift Package Manager until it is.
 
 In your `Podfile`:
 

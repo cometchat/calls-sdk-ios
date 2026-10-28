@@ -96,7 +96,7 @@ CometChatCalls.joinSession(
 ## 5. Cancel, timeout and decline
 
 ```swift
-// End button, or no answer after ~45 s (shorter than the callee's ring timeout)
+// End button, or no answer after ~45 s (no longer than the callee's ring timeout, 45 s by default)
 CometChatCalls.endCall(sessionID: sessionID, status: EndCallStatus.cancelled, onSuccess: {}, onError: { _ in })
 ```
 

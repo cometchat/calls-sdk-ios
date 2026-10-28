@@ -34,6 +34,8 @@ https://github.com/cometchat/calls-sdk-ios.git
 
 ### CocoaPods
 
+> Version 5.1.0 is not on the CocoaPods trunk yet. Use Swift Package Manager until it is.
+
 Add the following to your `Podfile`:
 
 ```ruby

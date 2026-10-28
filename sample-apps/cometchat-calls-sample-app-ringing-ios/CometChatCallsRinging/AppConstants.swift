@@ -8,7 +8,7 @@ enum AppConstants {
     static let appID = ""       // Your App ID
     static let region = ""               // us, eu, or in
     static let authKey = ""    // Your Auth Key
-    static let pushProviderID = ""       // Optional: your APNs push provider ID (Notifications → Push)
+    static let pushProviderID = ""       // Required: your APNs push provider ID (Notifications → Push)
 
     static let sampleUsersURL = "https://assets.cometchat.io/sampleapp/sampledata.json"
 

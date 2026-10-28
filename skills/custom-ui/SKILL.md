@@ -62,7 +62,7 @@ struct CustomCallControls: View {
         else { CallSession.shared.pauseVideo() }
     }
     private func switchCamera() { CallSession.shared.switchCamera() }
-    private func endCall() { CallSession.shared.leaveSession() }
+    private func endCall() { CallSession.shared.leave() }
 }
 ```
 
@@ -91,7 +91,7 @@ class MediaHandler: NSObject, MediaEventsListener, ObservableObject {
 | Start/stop recording | `startRecording()`, `stopRecording()` |
 | Pin/unpin participant | `pinParticipant(participantId:, type:)`, `unpinParticipant()` |
 | Mute participant | `muteParticipant(participantId:)` |
-| Leave session | `leaveSession()` |
+| Leave session | `leave()` |
 | Enable/disable PiP | `enablePictureInPictureLayout()`, `disablePictureInPictureLayout()` |
 
 ## Gotchas

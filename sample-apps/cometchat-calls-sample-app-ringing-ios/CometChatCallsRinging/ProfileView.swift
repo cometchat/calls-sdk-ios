@@ -82,7 +82,7 @@ struct ProfileView: View {
             VStack(spacing: 0) {
                 infoRow("App ID", Credentials.appID, copyable: true)
                 infoRow("Region", Credentials.region.uppercased())
-                infoRow("Push provider", Credentials.pushProviderID.isEmpty ? "Default" : Credentials.pushProviderID)
+                infoRow("Push provider", Credentials.pushProviderID.isEmpty ? "Not set" : Credentials.pushProviderID)
                 infoRow("App version", Self.version(of: .main))
                 infoRow("Calls SDK", Self.version(of: Bundle(for: CometChatCalls.self)))
                 infoRow("Chat SDK", Self.version(of: Bundle(for: CometChat.self)))

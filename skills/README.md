@@ -47,8 +47,8 @@ Each skill has a `description` field in its YAML frontmatter that lists trigger 
 ## Compatibility
 
 - CometChat Calls SDK v5 (5.1.0+)
-- CometChat Chat SDK v4 (4.0.+) — required for ringing and VoIP
+- CometChat Chat SDK 4.1.10 or later — required by the Push Notifications SDK 2.0 chat and calls products; the Chat SDK carries no call signalling
 - Swift 5.0+, SwiftUI
-- iOS 15.1+, Xcode 15+
-- SPM (preferred) or CocoaPods
+- iOS 15.1+, Xcode 16.4+
+- SPM (preferred) or CocoaPods — Calls SDK 5.1.0 and Push Notifications SDK 2.0 are not on the CocoaPods trunk yet, so use SPM until they are
 - Works with: Kiro, Claude Code, Cursor, Copilot, and other AI coding assistants that support the skills ecosystem

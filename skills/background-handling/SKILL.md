@@ -8,7 +8,7 @@ inclusion: manual
 
 ## Overview
 
-Keep calls alive when users press HOME or switch apps using iOS Background Modes and proper AVAudioSession configuration.
+Keep calls alive when users press HOME or switch apps using iOS Background Modes. The SDKs own the AVAudioSession; your app doesn't configure it.
 
 ## Prerequisites
 
@@ -33,21 +33,11 @@ Or in `Info.plist`:
 </array>
 ```
 
-### 2. Configure AVAudioSession
+### 2. Leave AVAudioSession to the SDKs
 
-```swift
-import AVFoundation
+**Calls that ring through the Push Notifications SDK 2.0 (CallKit):** do not set the `AVAudioSession` category and do not call `setActive(true)` yourself, before or after joining. CallKit activates the session when the call is answered and the Calls SDK starts audio from that activation. Activating it yourself gives one-way audio, most often after answering on the lock screen (see the `voip-calling` skill).
 
-func configureAudioSession() {
-    let session = AVAudioSession.sharedInstance()
-    do {
-        try session.setCategory(.playAndRecord, mode: .voiceChat, options: [.allowBluetooth, .defaultToSpeaker])
-        try session.setActive(true)
-    } catch {
-        print("Audio session config failed: \(error)")
-    }
-}
-```
+**Calls without CallKit** (you call `CometChatCalls.joinSession` directly): the Calls SDK configures and activates the audio session itself when it joins. You don't need to set it up either.
 
 ### 3. Handle Background Transition
 
@@ -68,7 +58,7 @@ func configureAudioSession() {
 - Background Modes must be enabled in Xcode capabilities — not just Info.plist
 - `voip` background mode is required for CallKit integration
 - `audio` background mode keeps the audio session alive when backgrounded
-- AVAudioSession category must be set before joining the call
+- Don't configure or activate AVAudioSession yourself: CallKit owns it for ringing calls, and the Calls SDK sets it up for direct joins
 - iOS may terminate background audio after extended periods — CallKit helps prevent this
 
 ## Sample App Reference

@@ -25,8 +25,8 @@ enum Credentials {
         AppConstants.hasValidConstants ? AppConstants.authKey : defaults.string(forKey: kAuthKey) ?? ""
     }
 
-    /// The push provider ID from the CometChat dashboard (Notifications → Push). Optional: empty
-    /// uses the app's default provider.
+    /// The push provider ID from the CometChat dashboard (Notifications → Push). Required: the
+    /// Push Notifications SDK can't register the device's push tokens without it.
     static var pushProviderID: String {
         AppConstants.hasValidConstants ? AppConstants.pushProviderID : defaults.string(forKey: kPushProviderID) ?? ""
     }

@@ -79,7 +79,7 @@ struct AppCredentialsView: View {
                 .textInputAutocapitalization(.never)
 
             // Push Provider ID
-            SectionLabel(text: "Push Provider ID (optional)")
+            SectionLabel(text: "Push Provider ID")
                 .padding(.top, 20)
                 .padding(.bottom, 8)
 
@@ -109,6 +109,10 @@ struct AppCredentialsView: View {
         }
         guard !authKey.trimmingCharacters(in: .whitespaces).isEmpty else {
             appState.errorMessage = "Please enter Auth Key"
+            return
+        }
+        guard !pushProviderID.trimmingCharacters(in: .whitespaces).isEmpty else {
+            appState.errorMessage = "Please enter Push Provider ID"
             return
         }
 

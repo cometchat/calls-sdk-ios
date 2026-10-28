@@ -1,13 +1,13 @@
 # CometChat Calls SDK — Ringing Sample App (iOS)
 
-A sample iOS app showing 1:1 ringing calls with the **Calls SDK** and the **Push Notifications SDK**.
+A sample iOS app showing 1:1 and group ringing calls with the **Calls SDK** and the **Push Notifications SDK**.
 The caller places and ends the call with the Calls SDK; the callee's phone rings through CallKit — in the
 foreground, in the background, locked or killed — and the session is prepared while it rings, so the call
 connects as soon as it is answered.
 
 ## Prerequisites
 
-- Xcode 16 or later
+- Xcode 16.4 or later
 - iOS 15.1+ on a **physical device** to receive calls (PushKit and CallKit do not work in the simulator)
 - A [CometChat](https://www.cometchat.com/) app with:
   - App ID, Auth Key and Region (US, EU or IN)
@@ -28,8 +28,10 @@ connects as soon as it is answered.
 2. Wait for Swift Package Manager to resolve dependencies.
 3. Under **Signing & Capabilities**, pick your team and change the bundle identifier to one your team owns.
    The project already has the Push Notifications capability and the Audio and Voice over IP background modes.
-4. In the CometChat dashboard, set up an APNs provider with the VoIP certificate or `.p8` key for that bundle
-   identifier.
+4. In the CometChat dashboard, set up an APNs provider for that bundle identifier with a token-based (`.p8`)
+   key. One `.p8` key serves both the device token and the VoIP token; a certificate provider serves only one.
+   Its "Enable Production Mode" switch must match the build: off for builds run from Xcode, on for TestFlight
+   and App Store builds.
 5. Run on two devices. On first launch, enter your **App ID**, **Auth Key**, **Region** and the **Push
    Provider ID** — or set them in `AppConstants.swift` before building.
 6. Log in as a different user on each device and call one from the other.
