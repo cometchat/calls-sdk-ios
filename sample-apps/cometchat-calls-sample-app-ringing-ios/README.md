@@ -22,6 +22,9 @@ connects as soon as it is answered.
    cd calls-sdk-ios/sample-apps/cometchat-calls-sample-app-ringing-ios
    open CometChatCallsRinging.xcodeproj
    ```
+   Keep the repository folder named `calls-sdk-ios`. The app uses the Calls SDK from this folder, and Swift
+   Package Manager matches it to the Push Notifications SDK's dependency by folder name, so a renamed folder
+   (for example `calls-sdk-ios-v5` from a GitHub ZIP download) fails to resolve.
 2. Wait for Swift Package Manager to resolve dependencies.
 3. Under **Signing & Capabilities**, pick your team and change the bundle identifier to one your team owns.
    The project already has the Push Notifications capability and the Audio and Voice over IP background modes.
