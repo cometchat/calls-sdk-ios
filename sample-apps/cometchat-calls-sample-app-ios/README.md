@@ -31,7 +31,7 @@ Sign up for a [CometChat](https://app.cometchat.com/) account to obtain your app
 
 1. Open the Xcode project:
    ```sh
-   cd sample-apps/cometchat-calls-sample-app-ios
+   cd calls-sdk-ios/sample-apps/cometchat-calls-sample-app-ios
    open CometChatCallsSample.xcodeproj
    ```
 

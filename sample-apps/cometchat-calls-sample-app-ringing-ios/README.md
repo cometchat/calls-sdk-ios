@@ -80,7 +80,8 @@ Every decision is made by `OutgoingCall`, a small state machine with no SwiftUI 
 
 **Logging out** waits for `CometChatPushNotifications.shared.unregisterTokens(completion:)` before logging out of
 the SDKs: the request is authenticated by the session being logged out, and without it the device keeps ringing
-for the user who left.
+for the user who left. If the unregister fails, the app does not log out: it offers **Retry** or **Log out anyway**, warning
+that this device may keep receiving calls for the user until it is unregistered.
 
 ## Project Structure
 

@@ -31,8 +31,10 @@ enum Credentials {
         AppConstants.hasValidConstants ? AppConstants.pushProviderID : defaults.string(forKey: kPushProviderID) ?? ""
     }
 
+    /// Without a push provider ID the app could sign in but never ring, so it counts as missing.
     static var isComplete: Bool {
-        !appID.isEmpty && !region.isEmpty && !authKey.isEmpty
+        !appID.isEmpty && !region.isEmpty && !authKey.isEmpty &&
+        !pushProviderID.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
     static func save(appID: String, region: String, authKey: String, pushProviderID: String) {

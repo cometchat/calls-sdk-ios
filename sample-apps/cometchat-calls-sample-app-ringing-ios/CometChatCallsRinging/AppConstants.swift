@@ -15,6 +15,7 @@ enum AppConstants {
     static var hasValidConstants: Bool {
         !appID.isEmpty && appID != "YOUR_APP_ID" &&
         !authKey.isEmpty && authKey != "YOUR_AUTH_KEY" &&
-        !region.isEmpty
+        !region.isEmpty &&
+        !pushProviderID.trimmingCharacters(in: .whitespaces).isEmpty
     }
 }

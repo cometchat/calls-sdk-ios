@@ -157,33 +157,50 @@ class AppState: ObservableObject {
 
     // MARK: - Logout
 
+    /// Set when this device's push tokens could not be unregistered. Signing out stops there, and
+    /// the user retries (`logout()`) or signs out anyway (`logOutOfSDKs()`).
+    @Published var tokenUnregisterFailed = false
+
     /// Unregisters this device's push tokens, then logs out of both SDKs.
     ///
     /// The unregister has to finish *before* the logout, not merely start: it is authenticated
     /// by the session being torn down, and without it this device keeps ringing for the user
-    /// who just left.
+    /// who just left. So a failed unregister does not log out.
     func logout() {
         isLoading = true
-        CometChatPushNotifications.shared.unregisterTokens(completion: { (result: PNResult<Void>) in
-            if case .failure(let error) = result {
-                print("[AppState] Push token unregistration failed: \(error)")
-            }
-            CometChatCalls.logout { _ in
-                print("[AppState] Calls SDK logout success")
-            } onError: { error in
-                print("[AppState] Calls SDK logout failed: \(error.errorDescription)")
-            }
-            CometChat.logout { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.isLoading = false
-                    self?.currentScreen = .login
+        CometChatPushNotifications.shared.unregisterTokens(completion: { [weak self] (result: PNResult<Void>) in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if case .failure(let error) = result {
+                    print("[AppState] Push token unregistration failed: \(error)")
+                    self.isLoading = false
+                    self.tokenUnregisterFailed = true
+                    return
                 }
-            } onError: { [weak self] error in
-                DispatchQueue.main.async {
-                    self?.isLoading = false
-                    self?.errorMessage = error.errorDescription
-                }
+                self.logOutOfSDKs()
             }
         })
+    }
+
+    /// Logs out of both SDKs. Called on its own only when the user signs out although this
+    /// device's push tokens are still registered.
+    func logOutOfSDKs() {
+        isLoading = true
+        CometChatCalls.logout { _ in
+            print("[AppState] Calls SDK logout success")
+        } onError: { error in
+            print("[AppState] Calls SDK logout failed: \(error.errorDescription)")
+        }
+        CometChat.logout { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.currentScreen = .login
+            }
+        } onError: { [weak self] error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.errorMessage = error.errorDescription
+            }
+        }
     }
 }

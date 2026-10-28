@@ -255,6 +255,8 @@ final class OutgoingCallViewModel: ObservableObject {
                 guard let self, !self.isScreenGone else { return }
                 if self.call.serverEnded(status) {
                     self.ringTimeoutWork?.cancel()
+                    // Declined or busy: nothing else releases the session `initiateCall` prepared.
+                    CallSession.shared.leave()
                     self.render()
                     self.dismissAfterEndText()
                 } else if self.call.isRinging {

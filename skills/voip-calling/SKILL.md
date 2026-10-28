@@ -92,12 +92,17 @@ The SDK registers the VoIP token when the user logs in to the Chat or Calls SDK.
 
 ```swift
 CometChatPushNotifications.shared.unregisterTokens(completion: { (result: PNResult<Void>) in
+    if case .failure(let error) = result {
+        // Don't log out: offer a retry, or logging out anyway with a warning.
+        print("Unregister failed: \(error)")
+        return
+    }
     CometChatCalls.logout(onSuccess: { _ in }, onError: { _ in })
     CometChat.logout(onSuccess: { _ in }, onError: { _ in })
 })
 ```
 
-If you don't wait, the device keeps ringing for the user who left.
+If you don't wait, the device keeps ringing for the user who left. The same happens if you log out after the unregister **failed**, so check the result first.
 
 ## 4. Keep CallKit in step with your call screen
 
@@ -116,7 +121,7 @@ CometChatPushNotificationsCalls.reportCallEnded(sessionId: id)
 |---|---|
 | `onPushTokenRegistrationFailed` | `providerId` set; Push Notifications capability present; user logged in |
 | Rings in the foreground but not when killed | Dashboard → Notifications → Logs: find the call's message ID and the device's `APNS_IOS_VOIP` token. A 400 or 403 there is the provider (environment, bundle ID, key), not the app |
-| Rings when it shouldn't (after logout) | `unregisterTokens` must complete **before** `logout` |
+| Rings when it shouldn't (after logout) | `unregisterTokens` must complete — and succeed — **before** `logout` |
 | One-way audio after answering on the lock screen | Something else activates `AVAudioSession`, but CallKit owns it. Remove it |
 
 **Only a killed app proves the push works.** When the app is open, in the background or locked, the call can still arrive over the app's live connection.

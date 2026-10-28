@@ -97,7 +97,7 @@ struct CallContainerView: UIViewRepresentable {
         func onConnectionRestored() {}
 
         func onLeaveSessionButtonClicked() {
-            CometChatCallsSDK.CallSession.shared.leaveSession()
+            CometChatCallsSDK.CallSession.shared.leave()
         }
     }
 }

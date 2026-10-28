@@ -35,6 +35,12 @@ struct ProfileView: View {
         } message: {
             Text("This device stops ringing for \(user?.name ?? "this user") until you sign in again.")
         }
+        .alert("Couldn't unregister this device", isPresented: $appState.tokenUnregisterFailed) {
+            Button("Retry") { appState.logout() }
+            Button("Log out anyway", role: .destructive) { appState.logOutOfSDKs() }
+        } message: {
+            Text("If you log out anyway, this device may keep receiving calls for \(user?.name ?? "this user") until it is unregistered.")
+        }
     }
 
     // MARK: Sections
