@@ -1,67 +1,65 @@
 import Foundation
 import CometChatSDK
 import CometChatCallsSDK
+import CometChatPushNotificationsSwift
 
-/// Central app state managing navigation, credentials, and dual SDK initialization.
-/// Uses CometChat (Chat SDK) for call signaling and CometChatCalls (Calls SDK) for sessions.
+/// Central app state managing navigation, credentials, and SDK initialization.
+///
+/// The Calls SDK places and ends calls (`initiateCall` / `endCall`); the Push Notifications SDK
+/// rings the callee through CallKit (`PushSetup`). The Chat SDK is only used for the user list.
 class AppState: ObservableObject {
 
     enum Screen: Equatable {
-        case splash, appCredentials, login, home, incomingCall, outgoingCall
+        case splash, appCredentials, login, home
     }
 
     @Published var currentScreen: Screen = .splash
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    // Incoming call data (set by call listener)
-    @Published var incomingSessionID: String?
-    @Published var incomingCallerName: String?
-    @Published var incomingCallerAvatar: String?
-    @Published var incomingCallType: String?
+    /// The call being placed, shown over the home screen while it is non-nil.
+    @Published var outgoingCall: OutgoingCallViewModel?
 
-    // Outgoing call data (set when initiating a call)
-    @Published var outgoingSessionID: String?
-    @Published var outgoingReceiverName: String?
-    @Published var outgoingReceiverAvatar: String?
-    @Published var outgoingCallType: String?
+    // MARK: - Placing a Call
 
-    // Active call session (set after accept/accepted, used by CallView)
-    @Published var activeSessionID: String?
-
-    // Persisted credentials
-    private let defaults = UserDefaults.standard
-    private let kAppID = "cc_app_id"
-    private let kRegion = "cc_region"
-    private let kAuthKey = "cc_auth_key"
-
-    private let callListenerID = "global_call_listener"
-
-    var savedAppID: String { defaults.string(forKey: kAppID) ?? "" }
-    var savedRegion: String { defaults.string(forKey: kRegion) ?? "" }
-    var savedAuthKey: String { defaults.string(forKey: kAuthKey) ?? "" }
-
-    var hasCredentials: Bool {
-        !savedAppID.isEmpty && !savedAuthKey.isEmpty && !savedRegion.isEmpty
+    /// Opens the outgoing call screen for a user or a group, which places the call.
+    /// `initiateCall` prepares the media session straight away, so the microphone (and the
+    /// camera for a video call) must be granted first.
+    func startCall(receiverID: String, name: String, avatarURL: String?, callType: String, isGroup: Bool) {
+        guard outgoingCall == nil else { return } // a second tap while the first is in flight
+        let isVideo = callType == CallSessionType.video
+        CallPermissions.request(video: isVideo) { [weak self] granted in
+            guard let self, self.outgoingCall == nil else { return }
+            guard granted else {
+                self.errorMessage = isVideo
+                    ? "Allow microphone and camera access in Settings to make video calls."
+                    : "Allow microphone access in Settings to make calls."
+                return
+            }
+            self.outgoingCall = OutgoingCallViewModel(
+                calleeUID: receiverID,
+                calleeName: name,
+                calleeAvatarURL: avatarURL,
+                callType: callType,
+                isGroup: isGroup
+            )
+        }
     }
 
-    func saveCredentials(appID: String, region: String, authKey: String) {
-        defaults.set(appID, forKey: kAppID)
-        defaults.set(region, forKey: kRegion)
-        defaults.set(authKey, forKey: kAuthKey)
+    var hasCredentials: Bool { Credentials.isComplete }
+
+    func saveCredentials(appID: String, region: String, authKey: String, pushProviderID: String) {
+        Credentials.save(appID: appID, region: region, authKey: authKey, pushProviderID: pushProviderID)
     }
 
     func clearCredentials() {
-        defaults.removeObject(forKey: kAppID)
-        defaults.removeObject(forKey: kRegion)
-        defaults.removeObject(forKey: kAuthKey)
+        Credentials.clear()
     }
 
-    // MARK: - Dual SDK Initialization
+    // MARK: - SDK Initialization
 
     /// Initialize both CometChat (Chat SDK) and CometChatCalls (Calls SDK).
     func initializeBothSDKs(appID: String, region: String, completion: @escaping (Bool) -> Void) {
-        // 1. Initialize Chat SDK first
         let chatSettings = AppSettings.AppSettingsBuilder()
             .subscribePresenceForAllUsers()
             .setRegion(region: region)
@@ -69,22 +67,9 @@ class AppState: ObservableObject {
 
         CometChat.init(appId: appID, appSettings: chatSettings) { [weak self] _ in
             print("[AppState] CometChat (Chat SDK) initialized")
-
-            // 2. Initialize Calls SDK
-            let callsSettings = CallAppSettingsBuilder()
-                .set(appID: appID)
-                .set(region: region)
-                .build()
-
-            CometChatCalls(callsAppSettings: callsSettings) { _ in
-                print("[AppState] CometChatCalls (Calls SDK) initialized")
-                DispatchQueue.main.async { completion(true) }
-            } onError: { error in
-                DispatchQueue.main.async {
-                    self?.errorMessage = error?.errorDescription
-                    print("[AppState] CometChatCalls init failed: \(error?.errorDescription ?? "unknown")")
-                    completion(false)
-                }
+            AppState.initializeCallsSDK(appID: appID, region: region) { success in
+                if !success { self?.errorMessage = "Calls SDK initialization failed" }
+                completion(success)
             }
         } onError: { [weak self] error in
             DispatchQueue.main.async {
@@ -95,21 +80,37 @@ class AppState: ObservableObject {
         }
     }
 
-    // MARK: - Dual SDK Login
+    /// Initialize the Calls SDK. Also run after every call, so the next one starts clean.
+    static func initializeCallsSDK(
+        appID: String = Credentials.appID,
+        region: String = Credentials.region,
+        completion: @escaping (Bool) -> Void
+    ) {
+        let callsSettings = CallAppSettingsBuilder()
+            .set(appID: appID)
+            .set(region: region)
+            .build()
 
-    /// Login to both Chat SDK and Calls SDK.
+        CometChatCalls(callsAppSettings: callsSettings) { _ in
+            print("[AppState] CometChatCalls (Calls SDK) initialized")
+            DispatchQueue.main.async { completion(true) }
+        } onError: { error in
+            print("[AppState] CometChatCalls init failed: \(error?.errorDescription ?? "unknown")")
+            DispatchQueue.main.async { completion(false) }
+        }
+    }
+
+    // MARK: - Login
+
+    /// Login to both Chat SDK and Calls SDK. The push SDK registers this device's VoIP token
+    /// for the user once they are logged in.
     func loginBothSDKs(uid: String, authKey: String, completion: @escaping (Bool) -> Void) {
-        // 1. Login to Chat SDK
         CometChat.login(UID: uid, apiKey: authKey) { [weak self] chatUser in
             print("[AppState] Chat SDK login success: \(chatUser.uid ?? "")")
 
-            // 2. Login to Calls SDK using UID and authKey
             CometChatCalls.login(UID: uid, authKey: authKey) { _ in
                 print("[AppState] Calls SDK login success")
-                DispatchQueue.main.async {
-                    self?.registerCallListener()
-                    completion(true)
-                }
+                DispatchQueue.main.async { completion(true) }
             } onError: { error in
                 DispatchQueue.main.async {
                     self?.errorMessage = error.errorDescription
@@ -130,137 +131,76 @@ class AppState: ObservableObject {
 
     /// Called on launch to determine the starting screen.
     func bootstrap() {
-        if AppConstants.hasValidConstants {
-            initializeBothSDKs(appID: AppConstants.appID, region: AppConstants.region) { success in
-                self.navigateAfterInit(success: success)
-            }
-        } else if hasCredentials {
-            initializeBothSDKs(appID: savedAppID, region: savedRegion) { success in
-                self.navigateAfterInit(success: success)
-            }
-        } else {
+        guard hasCredentials else {
             currentScreen = .appCredentials
+            return
+        }
+        initializeBothSDKs(appID: Credentials.appID, region: Credentials.region) { success in
+            self.navigateAfterInit(success: success)
         }
     }
 
     private func navigateAfterInit(success: Bool) {
-        if success {
-            let chatUser = CometChat.getLoggedInUser()
-            let callsUser = CometChatCalls.getLoggedInUser()
-            print("[AppState] navigateAfterInit — chatUser: \(chatUser?.uid ?? "nil"), callsUser: \(callsUser?.uid ?? "nil")")
-            if chatUser != nil && callsUser != nil {
-                registerCallListener()
-                currentScreen = .home
-            } else {
-                currentScreen = .login
-            }
-        } else {
+        guard success else {
             currentScreen = .appCredentials
+            return
         }
+        let chatUser = CometChat.getLoggedInUser()
+        let callsUser = CometChatCalls.getLoggedInUser()
+        print("[AppState] navigateAfterInit — chatUser: \(chatUser?.uid ?? "nil"), callsUser: \(callsUser?.uid ?? "nil")")
+        currentScreen = chatUser != nil && callsUser != nil ? .home : .login
     }
 
     func getAuthKey() -> String {
-        if AppConstants.hasValidConstants { return AppConstants.authKey }
-        return savedAuthKey
-    }
-
-    // MARK: - Re-initialize after call
-
-    /// Re-initialize both SDKs after a call session ends.
-    func reinitializeBothSDKs() {
-        let appID = AppConstants.hasValidConstants ? AppConstants.appID : savedAppID
-        let region = AppConstants.hasValidConstants ? AppConstants.region : savedRegion
-        guard !appID.isEmpty, !region.isEmpty else { return }
-
-        initializeBothSDKs(appID: appID, region: region) { success in
-            print("[AppState] SDKs re-initialized after call: \(success)")
-            if success { self.registerCallListener() }
-        }
+        Credentials.authKey
     }
 
     // MARK: - Logout
 
-    func logout() {
-        CometChat.removeCallListener(callListenerID)
+    /// Set when this device's push tokens could not be unregistered. Signing out stops there, and
+    /// the user retries (`logout()`) or signs out anyway (`logOutOfSDKs()`).
+    @Published var tokenUnregisterFailed = false
 
+    /// Unregisters this device's push tokens, then logs out of both SDKs.
+    ///
+    /// The unregister has to finish *before* the logout, not merely start: it is authenticated
+    /// by the session being torn down, and without it this device keeps ringing for the user
+    /// who just left. So a failed unregister does not log out.
+    func logout() {
+        isLoading = true
+        CometChatPushNotifications.shared.unregisterTokens(completion: { [weak self] (result: PNResult<Void>) in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if case .failure(let error) = result {
+                    print("[AppState] Push token unregistration failed: \(error)")
+                    self.isLoading = false
+                    self.tokenUnregisterFailed = true
+                    return
+                }
+                self.logOutOfSDKs()
+            }
+        })
+    }
+
+    /// Logs out of both SDKs. Called on its own only when the user signs out although this
+    /// device's push tokens are still registered.
+    func logOutOfSDKs() {
+        isLoading = true
+        CometChatCalls.logout { _ in
+            print("[AppState] Calls SDK logout success")
+        } onError: { error in
+            print("[AppState] Calls SDK logout failed: \(error.errorDescription)")
+        }
         CometChat.logout { [weak self] _ in
-            CometChatCalls.logout { _ in
-                DispatchQueue.main.async {
-                    self?.currentScreen = .login
-                }
-            } onError: { _ in
-                DispatchQueue.main.async {
-                    self?.currentScreen = .login
-                }
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.currentScreen = .login
             }
         } onError: { [weak self] error in
             DispatchQueue.main.async {
+                self?.isLoading = false
                 self?.errorMessage = error.errorDescription
             }
-        }
-    }
-
-    // MARK: - Call Listener
-
-    func registerCallListener() {
-        CometChat.addCallListener(callListenerID, self)
-        print("[AppState] Call listener registered")
-    }
-}
-
-// MARK: - CometChatCallDelegate
-
-extension AppState: CometChatCallDelegate {
-
-    func onIncomingCallReceived(incomingCall: CometChatSDK.Call?, error: CometChatException?) {
-        guard let call = incomingCall else { return }
-        DispatchQueue.main.async {
-            self.incomingSessionID = call.sessionID
-            self.incomingCallerName = call.sender?.name ?? "Unknown"
-            self.incomingCallerAvatar = call.sender?.avatar ?? ""
-            self.incomingCallType = call.callType == .audio ? "audio" : "video"
-            self.currentScreen = .incomingCall
-            print("[AppState] Incoming call from \(call.sender?.name ?? "unknown"), session: \(call.sessionID ?? "")")
-        }
-    }
-
-    func onOutgoingCallAccepted(acceptedCall: CometChatSDK.Call?, error: CometChatException?) {
-        guard let call = acceptedCall else { return }
-        DispatchQueue.main.async {
-            self.activeSessionID = call.sessionID
-            print("[AppState] Outgoing call accepted, session: \(call.sessionID ?? "")")
-        }
-    }
-
-    func onOutgoingCallRejected(rejectedCall: CometChatSDK.Call?, error: CometChatException?) {
-        DispatchQueue.main.async {
-            let status = rejectedCall?.callStatus
-            if status == .busy {
-                self.errorMessage = "User is busy"
-            }
-            self.outgoingSessionID = nil
-            self.currentScreen = .home
-            print("[AppState] Outgoing call rejected")
-        }
-    }
-
-    func onIncomingCallCancelled(cancelledCall: CometChatSDK.Call?, error: CometChatException?) {
-        DispatchQueue.main.async {
-            self.incomingSessionID = nil
-            self.currentScreen = .home
-            print("[AppState] Incoming call cancelled")
-        }
-    }
-
-    func onCallEndedMessageReceived(endedCall: CometChatSDK.Call?, error: CometChatException?) {
-        print("[AppState] Call ended by other party, session: \(endedCall?.sessionID ?? "")")
-        // Leave the Calls SDK session if active
-        let session = CometChatCallsSDK.CallSession.shared
-        session.leaveSession()
-        DispatchQueue.main.async {
-            self.activeSessionID = nil
-            self.currentScreen = .home
-            self.reinitializeBothSDKs()
         }
     }
 }

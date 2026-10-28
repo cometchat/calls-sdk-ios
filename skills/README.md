@@ -18,9 +18,9 @@ cp -r skills/ /path/to/your/project/skills/
 
 | Skill | Triggers On |
 |-------|-------------|
-| `setup` | SPM/CocoaPods, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions |
+| `setup` | SPM, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions |
 | `join-session` | CometChatCalls.joinSession, SessionSettingsBuilder, UIView container |
-| `ringing-integration` | Dual SDK (Chat + Calls), initiateCall, accept/reject/cancel, incoming/outgoing |
+| `ringing-integration` | Calls SDK 5.1 initiateCall / endCall, prepared sessions, 1:1 and group ringing, answered calls |
 | `session-settings` | All SessionSettingsBuilder options: layouts, session type, audio mode, hide buttons |
 | `event-listeners` | SessionStatusListener, ParticipantEventListener, MediaEventsListener, ButtonClickListener |
 | `call-logs` | CallLogRequest, fetching and displaying call history |
@@ -33,7 +33,7 @@ cp -r skills/ /path/to/your/project/skills/
 | `screen-sharing` | Screen share viewing, presenter status |
 | `picture-in-picture` | PiP mode configuration |
 | `background-handling` | Background modes, AVAudioSession, keeping calls alive |
-| `voip-calling` | CallKit, PushKit, VoIP push notifications |
+| `voip-calling` | Push Notifications SDK 2.0: VoIP push + CallKit in every app state, APNs provider, tokens |
 | `audio-controls` | Mute/unmute, audio route switching |
 | `video-controls` | Camera on/off, switch camera |
 | `participant-management` | Participant list, mute/kick, raise hand |
@@ -47,8 +47,8 @@ Each skill has a `description` field in its YAML frontmatter that lists trigger 
 ## Compatibility
 
 - CometChat Calls SDK v5 (5.1.0+)
-- CometChat Chat SDK v4 (4.0.+) — required for ringing and VoIP
+- CometChat Chat SDK 4.1.10 or later — required by the Push Notifications SDK 2.0 chat and calls products; the Chat SDK carries no call signalling
 - Swift 5.0+, SwiftUI
-- iOS 15.1+, Xcode 15+
-- SPM (preferred) or CocoaPods
+- iOS 15.1+, Xcode 16.4+
+- Swift Package Manager
 - Works with: Kiro, Claude Code, Cursor, Copilot, and other AI coding assistants that support the skills ecosystem

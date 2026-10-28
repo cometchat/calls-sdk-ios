@@ -53,11 +53,11 @@ CallLogsRequest.CallLogsBuilder().set(uid: "user_id").build()
 ### Pagination
 
 ```swift
-// Forward pagination
-request.fetchNext(onSuccess:onError:)
+// Forward pagination: each call returns the next page (empty after the last one)
+request.fetchNext(onSuccess: { callLogs in /* append */ }, onError: { error in })
 
-// Backward pagination
-request.fetchPrevious(onSuccess:onError:)
+// Backward pagination: `authToken:` is required; pass nil to use the builder's or the stored token
+request.fetchPrevious(authToken: nil, onSuccess: { callLogs in /* prepend */ }, onError: { error in })
 ```
 
 ### Access Recordings
@@ -65,9 +65,9 @@ request.fetchPrevious(onSuccess:onError:)
 ```swift
 for callLog in callLogs {
     if callLog.hasRecording {
-        callLog.recordings?.forEach { recording in
-            print("URL: \(recording.recordingURL)")
-            print("Duration: \(recording.duration) seconds")
+        callLog.recordings.forEach { recording in
+            print("URL: \(recording.recordingURL ?? "")")
+            print("Duration: \(recording.duration ?? 0) seconds")
         }
     }
 }
@@ -78,9 +78,10 @@ for callLog in callLogs {
 - `CallLogsRequest` is from the Calls SDK, not the Chat SDK
 - `set(callType:)` takes `SessionType` enum: `.video` or `.audio`
 - `set(callDirection:)` takes `CallDirection` enum: `.incoming` or `.outgoing`
-- Auth token is automatically resolved from the SDK's stored login token — no need to pass it manually
+- Auth token is automatically resolved from the SDK's stored login token — no need to pass it manually (`fetchPrevious` still takes an `authToken:` argument: pass `nil`)
+- `recordings` is a non-optional array; each `Recording`'s fields (`recordingURL`, `duration`, …) are optional
 - Create a new `CallLogsRequest` to reset pagination
 
 ## Sample App Reference
 
-- `CallLogsView.swift` — Fetching and displaying call history in a SwiftUI List
+- `HistoryView.swift` (ringing sample) — paginated call history, reloaded on each visit, with a details screen

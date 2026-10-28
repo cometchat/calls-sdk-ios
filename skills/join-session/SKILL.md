@@ -13,7 +13,7 @@ Join a call session using `CometChatCalls.joinSession()`. Requires a `UIView` co
 ## Prerequisites
 
 - Calls SDK initialized and user logged in
-- A valid session ID (from Chat SDK's `Call.sessionId` or your backend)
+- A valid session ID: `InitiatedCall.sessionId` from `CometChatCalls.initiateCall` (caller), `IncomingCall.sessionId` from the Push Notifications SDK (callee), or your own ID shared by everyone who joins
 
 ## Key Imports
 
@@ -102,7 +102,7 @@ struct CallContainerView: UIViewRepresentable {
         func onConnectionLost() {}
         func onConnectionRestored() {}
         func onLeaveSessionButtonClicked() {
-            CallSession.shared.leaveSession()
+            CallSession.shared.leave()
         }
     }
 }

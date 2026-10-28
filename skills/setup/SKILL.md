@@ -1,6 +1,6 @@
 ---
 name: setup
-description: Set up CometChat Calls SDK v5 for iOS. Use when adding SDK via SPM or CocoaPods, configuring CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions. Triggers on "setup calls sdk", "add cometchat dependency", "initialize calls", "spm setup", "cocoapods setup".
+description: Set up CometChat Calls SDK v5 for iOS. Use when adding the SDK via Swift Package Manager, configuring CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions. Triggers on "setup calls sdk", "add cometchat dependency", "initialize calls", "spm setup".
 inclusion: manual
 ---
 
@@ -8,11 +8,11 @@ inclusion: manual
 
 ## Overview
 
-Install and initialize the CometChat Calls SDK v5 in an iOS project. Covers Swift Package Manager, CocoaPods, Info.plist permissions, and `CometChatCalls` initialization.
+Install and initialize the CometChat Calls SDK v5 in an iOS project. Covers Swift Package Manager, Info.plist permissions, and `CometChatCalls` initialization.
 
 ## Prerequisites
 
-- iOS 15.1+, Xcode 15+, Swift 5.0+
+- iOS 15.1+, Xcode 16.4+, Swift 5.0+
 - App ID and Region from CometChat Dashboard
 
 ## Key Imports
@@ -23,7 +23,7 @@ import CometChatCallsSDK
 
 ## Implementation
 
-### 1. Add via Swift Package Manager (Preferred)
+### 1. Add via Swift Package Manager
 
 In Xcode: File → Add Package Dependencies → Enter:
 
@@ -33,22 +33,7 @@ https://github.com/cometchat/calls-sdk-ios.git
 
 Select version `5.1.0` or later. Add `CometChatCallsSDK` to your target.
 
-### 2. Add via CocoaPods
-
-In your `Podfile`:
-
-```ruby
-platform :ios, '15.1'
-
-target 'YourApp' do
-  use_frameworks!
-  pod 'CometChatCallsSDK', '~> 5.1.0'
-end
-```
-
-Then run `pod install`.
-
-### 3. Info.plist Permissions
+### 2. Info.plist Permissions
 
 Add to `Info.plist`:
 
@@ -59,7 +44,7 @@ Add to `Info.plist`:
 <string>Microphone access is required for voice and video calls</string>
 ```
 
-### 4. Initialize SDK
+### 3. Initialize SDK
 
 Call once at app launch (e.g., in `App.init()` or `AppDelegate`):
 
@@ -76,7 +61,7 @@ CometChatCalls(callsAppSettings: settings) { success in
 }
 ```
 
-### 5. Authentication
+### 4. Authentication
 
 Login with UID + Auth Key (dev only) or Auth Token (production):
 
@@ -88,7 +73,7 @@ CometChatCalls.login(UID: "user_uid", authKey: "AUTH_KEY") { user in
 }
 ```
 
-### 6. Check Logged-In User
+### 5. Check Logged-In User
 
 ```swift
 if let user = CometChatCalls.getLoggedInUser() {
@@ -96,7 +81,7 @@ if let user = CometChatCalls.getLoggedInUser() {
 }
 ```
 
-### 7. Logout
+### 6. Logout
 
 ```swift
 CometChatCalls.logout { success in

@@ -2,14 +2,17 @@ name: CometChatCallsRinging
 options:
   bundleIdPrefix: com.cometchat
   deploymentTarget:
-    iOS: "15.0"
+    iOS: "15.1"
   xcodeVersion: "16.0"
 packages:
   CometChatCallsSDK:
     path: ../../
   CometChatSDK:
     url: https://github.com/cometchat/chat-sdk-ios.git
-    exactVersion: 4.1.3
+    from: 4.1.10
+  CometChatPushNotifications:
+    url: https://github.com/cometchat/push-notifications-sdk-ios.git
+    from: 2.0.0
 targets:
   CometChatCallsRinging:
     type: application
@@ -25,6 +28,11 @@ targets:
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "5.0"
         DEVELOPMENT_TEAM: ""
+    entitlements:
+      path: CometChatCallsRinging/CometChatCallsRinging.entitlements
+      properties:
+        # Needed for VoIP (PushKit) registration. A TestFlight or App Store build needs "production".
+        aps-environment: development
     info:
       path: CometChatCallsRinging/Info.plist
       properties:
@@ -38,6 +46,7 @@ targets:
         NSCameraUsageDescription: "Camera access is required for video calls"
         NSMicrophoneUsageDescription: "Microphone access is required for voice and video calls"
         UIBackgroundModes:
+          - audio
           - voip
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
@@ -46,3 +55,5 @@ targets:
         product: CometChatCallsSDK
       - package: CometChatSDK
         product: CometChatSDK
+      - package: CometChatPushNotifications
+        product: CometChatPushNotificationsCalls

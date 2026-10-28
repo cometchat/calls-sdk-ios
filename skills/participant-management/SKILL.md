@@ -21,9 +21,10 @@ import CometChatCallsSDK
 ### Participant Actions
 
 ```swift
-CallSession.shared.muteParticipant(participantId: participant.uid)
-CallSession.shared.pauseParticipantVideo(participantId: participant.uid)
-CallSession.shared.pinParticipant(participantId: participant.uid, type: "pin")
+guard let uid = participant.uid else { return } // `uid` is optional
+CallSession.shared.muteParticipant(participantId: uid)
+CallSession.shared.pauseParticipantVideo(participantId: uid)
+CallSession.shared.pinParticipant(participantId: uid, type: "pin")
 CallSession.shared.unpinParticipant()
 ```
 
@@ -54,20 +55,22 @@ CallSession.shared.addParticipantEventListener(handler)
 
 ### Participant Properties
 
+All properties are optional — unwrap before use.
+
 | Property | Type | Description |
 |----------|------|-------------|
-| `uid` | String | CometChat user ID |
-| `name` | String | Display name |
-| `avatar` | String | Avatar URL |
-| `totalAudioMinutes` | Double | Total audio minutes |
-| `totalVideoMinutes` | Double | Total video minutes |
-| `totalDurationInMinutes` | Double | Total duration in minutes |
-| `deviceID` | String | Device identifier |
-| `isJoined` | Bool | Currently joined? |
-| `joinedAt` | Date | Join timestamp |
-| `mid` | String | Meeting ID |
-| `state` | String | Participant state |
-| `leftAt` | Date | Left timestamp |
+| `uid` | `String?` | CometChat user ID |
+| `name` | `String?` | Display name |
+| `avatar` | `String?` | Avatar URL |
+| `totalAudioMinutes` | `Double?` | Total audio minutes |
+| `totalVideoMinutes` | `Double?` | Total video minutes |
+| `totalDurationInMinutes` | `Double?` | Total duration in minutes |
+| `deviceID` | `String?` | Device identifier |
+| `isJoined` | `Bool?` | Currently joined? |
+| `joinedAt` | `Int?` | Join timestamp |
+| `mid` | `String?` | Meeting ID |
+| `state` | `String?` | Participant state |
+| `leftAt` | `Int?` | Left timestamp |
 
 ### Show/Hide Participant List Button
 

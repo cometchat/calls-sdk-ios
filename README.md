@@ -32,25 +32,6 @@ In Xcode, go to File > Add Package Dependencies and enter:
 https://github.com/cometchat/calls-sdk-ios.git
 ```
 
-### CocoaPods
-
-Add the following to your `Podfile`:
-
-```ruby
-platform :ios, '15.1'
-
-target 'YourApp' do
-  use_frameworks!
-  pod 'CometChatCallsSDK', '5.1.0'
-end
-```
-
-Then run:
-
-```bash
-pod install
-```
-
 For the complete setup guide, refer to our [official documentation](https://www.cometchat.com/docs/calls/ios/overview).
 
 ## 🚀 Explore the Sample Apps
@@ -60,7 +41,7 @@ Dive straight into our sample apps to see the CometChat Calls SDK in action.
 | Sample App | Description |
 |------------|-------------|
 | [Standalone Calling](sample-apps/cometchat-calls-sample-app-ios#readme) | Join or start meetings with a session ID — Calls SDK only |
-| [Ringing](sample-apps/cometchat-calls-sample-app-ringing-ios#readme) | Full ringing flow with user list, incoming/outgoing screens — Chat SDK + Calls SDK |
+| [Ringing](sample-apps/cometchat-calls-sample-app-ringing-ios#readme) | 1:1 and group calls that ring through CallKit in every app state, with call history — Calls SDK 5.1 + Push Notifications SDK 2.0 |
 
 ## 🤖 Agent Skills
 

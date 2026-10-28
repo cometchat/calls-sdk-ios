@@ -4,6 +4,7 @@ struct AppCredentialsView: View {
     @EnvironmentObject var appState: AppState
     @State private var appID = ""
     @State private var authKey = ""
+    @State private var pushProviderID = ""
     @State private var selectedRegion: String?
     @State private var isLoading = false
 
@@ -16,10 +17,7 @@ struct AppCredentialsView: View {
             GeometryReader { geo in
                 ScrollView {
                     VStack(spacing: 0) {
-                        Image("cometchat_logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 40)
+                        AppLogo(size: 26)
                             .padding(.bottom, 32)
 
                         credentialsCard
@@ -32,8 +30,8 @@ struct AppCredentialsView: View {
             }
 
             if isLoading {
-                Color.black.opacity(0.5).ignoresSafeArea()
-                ProgressView().tint(.accentPurple).scaleEffect(1.5)
+                Color.scrim.ignoresSafeArea()
+                ProgressView().tint(.onAccent).scaleEffect(1.5)
             }
         }
         .alert("Error", isPresented: .init(
@@ -80,6 +78,16 @@ struct AppCredentialsView: View {
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
 
+            // Push Provider ID
+            SectionLabel(text: "Push Provider ID")
+                .padding(.top, 20)
+                .padding(.bottom, 8)
+
+            TextField("APNs provider ID for incoming calls", text: $pushProviderID)
+                .textFieldStyle(RoundedTextFieldStyle())
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+
             // Continue
             Button { continueAction() } label: {
                 Text("Continue")
@@ -103,12 +111,22 @@ struct AppCredentialsView: View {
             appState.errorMessage = "Please enter Auth Key"
             return
         }
+        guard !pushProviderID.trimmingCharacters(in: .whitespaces).isEmpty else {
+            appState.errorMessage = "Please enter Push Provider ID"
+            return
+        }
 
         isLoading = true
         let trimmedAppID = appID.trimmingCharacters(in: .whitespaces)
         let trimmedAuthKey = authKey.trimmingCharacters(in: .whitespaces)
 
-        appState.saveCredentials(appID: trimmedAppID, region: region, authKey: trimmedAuthKey)
+        appState.saveCredentials(
+            appID: trimmedAppID,
+            region: region,
+            authKey: trimmedAuthKey,
+            pushProviderID: pushProviderID.trimmingCharacters(in: .whitespaces)
+        )
+        PushSetup.initializeIfNeeded()
         appState.initializeBothSDKs(appID: trimmedAppID, region: region) { success in
             isLoading = false
             if success { appState.currentScreen = .login }

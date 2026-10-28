@@ -14,10 +14,6 @@ struct RootView: View {
                 LoginView()
             case .home:
                 HomeView()
-            case .incomingCall:
-                IncomingCallView()
-            case .outgoingCall:
-                OutgoingCallView()
             }
         }
         .animation(.easeInOut(duration: 0.25), value: appState.currentScreen)

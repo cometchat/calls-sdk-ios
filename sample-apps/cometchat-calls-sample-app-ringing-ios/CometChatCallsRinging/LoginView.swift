@@ -18,10 +18,7 @@ struct LoginView: View {
             GeometryReader { geo in
                 ScrollView {
                     VStack(spacing: 0) {
-                        Image("cometchat_logo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 40)
+                        AppLogo(size: 26)
                             .padding(.bottom, 32)
 
                         loginCard
@@ -48,8 +45,8 @@ struct LoginView: View {
             }
 
             if isLoading {
-                Color.black.opacity(0.5).ignoresSafeArea()
-                ProgressView().tint(.accentPurple).scaleEffect(1.5)
+                Color.scrim.ignoresSafeArea()
+                ProgressView().tint(.onAccent).scaleEffect(1.5)
             }
         }
         .task { sampleUsers = await SampleUserService.fetch() }

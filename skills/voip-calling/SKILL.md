@@ -1,168 +1,136 @@
 ---
 name: voip-calling
-description: Implement native VoIP calling with CallKit (CXProvider, CXCallController) and PushKit for VoIP push notifications. Use when receiving calls in background/killed state or system call UI. Triggers on "VoIP", "voip calling", "CallKit", "CXProvider", "PushKit", "push notification call", "background call".
+description: Ring the callee with CallKit in every app state (foreground, background, locked, killed) using the CometChat Push Notifications SDK 2.0 Calls product, which owns PushKit, CallKit, token registration and answer/decline. Use when setting up VoIP push, CallKit, the APNs provider, or debugging calls that don't ring. Triggers on "VoIP", "voip calling", "CallKit", "PushKit", "push notification call", "background call", "killed state", "not ringing".
 inclusion: manual
 ---
 
-# CometChat Calls SDK v5 — VoIP Calling
+# CometChat Calls SDK v5.1 — VoIP Calling (Push Notifications SDK 2.0)
 
 ## Overview
 
-Native VoIP calling using Apple's CallKit framework. Shows the system call UI on lock screen, integrates with Bluetooth/CarPlay, and works when the app is killed. Requires PushKit for VoIP push notifications.
+`CometChatPushNotificationsCalls` (Push Notifications SDK 2.0) owns the whole incoming side:
+
+- PushKit registration and the VoIP token, registered at login and removed at logout
+- Receiving the VoIP push, and reporting it to **CallKit** straight away (iOS requires this for every VoIP push)
+- Preparing the call session while the phone rings
+- Answer, decline and missed calls, plus busy handling and End & Accept
+
+Your app sets it up once and shows its own call screen when the user answers. **Do not create your own `PKPushRegistry`, `CXProvider` or call `AVAudioSession.setActive`.**
 
 ## Prerequisites
 
-- Chat SDK v4 + Calls SDK v5 integrated
-- Apple Push Notification service (APNs) VoIP certificate
-- Push notifications enabled in CometChat Dashboard
-- Background Modes: `voip`, `audio`
-
-## Key Imports
-
-```swift
-import CallKit
-import PushKit
-import CometChatSDK
-import CometChatCallsSDK
-```
-
-## Implementation
-
-### 1. PushKit Registration
-
-```swift
-class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
-    let pushRegistry = PKPushRegistry(queue: .main)
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        pushRegistry.delegate = self
-        pushRegistry.desiredPushTypes = [.voIP]
-        return true
-    }
-
-    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
-        let token = pushCredentials.token.map { String(format: "%02x", $0) }.joined()
-        CometChat.registerTokenForPushNotification(token: token) { success in
-            print("VoIP token registered")
-        } onError: { error in
-            print("Token registration failed: \(error?.errorDescription ?? "")")
-        }
-    }
-
-    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
-        // Parse payload and report to CallKit
-        let data = payload.dictionaryPayload
-        guard let sessionId = data["sessionId"] as? String else {
-            completion()
-            return
-        }
-        CallKitManager.shared.reportIncomingCall(
-            sessionId: sessionId,
-            callerName: data["senderName"] as? String ?? "Unknown",
-            hasVideo: (data["callType"] as? String) == "video"
-        ) {
-            completion()
-        }
-    }
-}
-```
-
-### 2. CallKit Manager
-
-```swift
-class CallKitManager: NSObject, CXProviderDelegate {
-    static let shared = CallKitManager()
-
-    private let provider: CXProvider
-    private let callController = CXCallController()
-    private var activeCallUUID: UUID?
-    private var activeSessionId: String?
-
-    override init() {
-        let config = CXProviderConfiguration()
-        config.supportsVideo = true
-        config.maximumCallsPerCallGroup = 1
-        config.supportedHandleTypes = [.generic]
-        provider = CXProvider(configuration: config)
-        super.init()
-        provider.setDelegate(self, queue: nil)
-    }
-
-    func reportIncomingCall(sessionId: String, callerName: String, hasVideo: Bool, completion: @escaping () -> Void) {
-        let uuid = UUID()
-        activeCallUUID = uuid
-        activeSessionId = sessionId
-
-        let update = CXCallUpdate()
-        update.remoteHandle = CXHandle(type: .generic, value: callerName)
-        update.localizedCallerName = callerName
-        update.hasVideo = hasVideo
-
-        provider.reportNewIncomingCall(with: uuid, update: update) { error in
-            if let error = error {
-                print("Report incoming call failed: \(error)")
-            }
-            completion()
-        }
-    }
-
-    // MARK: - CXProviderDelegate
-
-    func providerDidReset(_ provider: CXProvider) {
-        activeCallUUID = nil
-        activeSessionId = nil
-    }
-
-    func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        guard let sessionId = activeSessionId else {
-            action.fail()
-            return
-        }
-        CometChat.acceptCall(sessionID: sessionId) { call in
-            action.fulfill()
-            // Navigate to call screen
-        } onError: { error in
-            action.fail()
-        }
-    }
-
-    func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        guard let sessionId = activeSessionId else {
-            action.fulfill()
-            return
-        }
-        CometChat.rejectCall(sessionID: sessionId, status: .rejected) { _ in
-            action.fulfill()
-        } onError: { _ in
-            action.fulfill()
-        }
-        activeCallUUID = nil
-        activeSessionId = nil
-    }
-}
-```
-
-### 3. Background Modes
-
-In `Info.plist`:
+- Calls SDK 5.1+ (ringing uses its prepared sessions — see the `ringing-integration` skill)
+- SwiftPM: `https://github.com/cometchat/push-notifications-sdk-ios.git` from 2.0.0, product **`CometChatPushNotificationsCalls`**
+- Xcode capabilities: **Push Notifications**; **Background Modes** → Audio, Voice over IP:
 
 ```xml
 <key>UIBackgroundModes</key>
 <array>
-    <string>voip</string>
     <string>audio</string>
+    <string>voip</string>
 </array>
 ```
 
-## Gotchas
+- CometChat dashboard → Notifications → Push: an **APNs provider** using a `.p8` key. Its **Bundle ID must be your app's bundle ID**, because VoIP pushes go to the topic `<bundle id>.voip`.
+  - **The provider's APNs environment must match the build.** Builds run from Xcode need "Enable Production Mode" off; TestFlight and App Store builds need it on. A mismatch makes APNs reject the push with a 400, and nothing rings.
 
-- PushKit requires you to report every VoIP push to CallKit — failing to do so causes iOS to terminate your app
-- VoIP certificate must be configured in APNs (not regular push certificate)
-- CallKit is mandatory for VoIP apps on iOS — you cannot use VoIP push without it
-- The `pushRegistry` must be initialized early (AppDelegate) to receive pushes when killed
-- Always call `action.fulfill()` or `action.fail()` in CXProviderDelegate methods
+## 1. Initialize in `didFinishLaunching`
+
+It has to be there: iOS only delivers the VoIP push that launched a killed app if the PushKit registry exists by the time `didFinishLaunching` returns.
+
+```swift
+import CometChatPushNotificationsSwift
+import CometChatPushNotificationsCalls
+
+final class AppDelegate: NSObject, UIApplicationDelegate {
+    private let pushDelegate = CallPushDelegate()   // the SDK holds it weakly; keep it alive
+
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        CometChatPushNotifications.shared.delegate = pushDelegate
+        CometChatPushNotifications.shared.initialize(
+            config: PNConfiguration.builder(appId: APP_ID, region: REGION)
+                .providerId(PROVIDER_ID)                    // required to register tokens
+                .requestNotificationPermission(false)       // calls need no notification permission
+                .callKit(name: "My App", iconTemplateImageName: nil, ringtone: nil,
+                         includeInRecents: true, supportsVideo: true)
+                .build()
+        )
+        return true
+    }
+}
+```
+
+If the app ID is only known after launch (entered by the user), initialize right after it is known. The configuration is fixed for the life of the process.
+
+## 2. The delegate
+
+```swift
+final class CallPushDelegate: NSObject, CometChatPushNotificationsCallsDelegate {
+    /// The user answered; CallKit already accepted. Show the call screen and join call.sessionId.
+    func presentCall(_ call: IncomingCall) -> Bool {
+        IncomingCallPresenter.shared.answered(call)   // publishes a screen; joins by session ID
+        return true
+    }
+
+    func callDidEnd(_ call: IncomingCall, reason: CallEndReason) {
+        IncomingCallPresenter.shared.ended(sessionId: call.sessionId)
+    }
+
+    func onPushTokenRegistered(platform: CometChatPushTokenPlatform) { }
+    func onPushTokenRegistrationFailed(platform: CometChatPushTokenPlatform, error: PNError) {
+        // Wrong provider ID or a missing capability shows up here first
+    }
+}
+```
+
+`IncomingCall` carries `sessionId`, `callerName`, `callerAvatarUrl`, `isVideo` and `isPeerCall` (false for a group call).
+
+## 3. Tokens: login and logout
+
+The SDK registers the VoIP token when the user logs in to the Chat or Calls SDK. Before logging out, **wait** for the token to be removed. The request is authenticated by the session you are about to end:
+
+```swift
+CometChatPushNotifications.shared.unregisterTokens(completion: { (result: PNResult<Void>) in
+    if case .failure(let error) = result {
+        // Don't log out: offer a retry, or logging out anyway with a warning.
+        print("Unregister failed: \(error)")
+        return
+    }
+    CometChatCalls.logout(onSuccess: { _ in }, onError: { _ in })
+    CometChat.logout(onSuccess: { _ in }, onError: { _ in })
+})
+```
+
+If you don't wait, the device keeps ringing for the user who left. The same happens if you log out after the unregister **failed**, so check the result first.
+
+## 4. Keep CallKit in step with your call screen
+
+```swift
+// After joining an OUTGOING call (no-op for an answered incoming one):
+CometChatPushNotificationsCalls.reportOutgoingCall(sessionId: id, calleeName: name, hasVideo: isVideo)
+CometChatPushNotificationsCalls.reportCallConnected(sessionId: id)
+
+// When your call screen ends the call itself:
+CometChatPushNotificationsCalls.reportCallEnded(sessionId: id)
+```
+
+## Troubleshooting
+
+| Symptom | Check |
+|---|---|
+| `onPushTokenRegistrationFailed` | `providerId` set; Push Notifications capability present; user logged in |
+| Rings in the foreground but not when killed | Dashboard → Notifications → Logs: find the call's message ID and the device's `APNS_IOS_VOIP` token. A 400 or 403 there is the provider (environment, bundle ID, key), not the app |
+| Rings when it shouldn't (after logout) | `unregisterTokens` must complete — and succeed — **before** `logout` |
+| One-way audio after answering on the lock screen | Something else activates `AVAudioSession`, but CallKit owns it. Remove it |
+
+**Only a killed app proves the push works.** When the app is open, in the background or locked, the call can still arrive over the app's live connection.
 
 ## Sample App Reference
 
-- `CallKitManager.swift` — CallKit integration
-- `AppDelegate.swift` — PushKit registration
+`sample-apps/cometchat-calls-sample-app-ringing-ios`:
+
+- `CometChatCallsRingingApp.swift` — `PushSetup` in `didFinishLaunching`
+- `CallPushDelegate.swift` — the delegate
+- `IncomingCallPresenter.swift` — answered call → call screen, End & Accept, dismissal
+- `AppState.swift` — `unregisterTokens` before logout

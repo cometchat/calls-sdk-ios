@@ -28,20 +28,47 @@ let settings = SessionSettingsBuilder()
     .build()
 ```
 
-### 2. Custom SwiftUI Controls
+### 2. One Media State, Driven by the SDK's Events
+
+The controls must not keep their own flags: the call can start muted (`startAudioMuted`) or be muted from elsewhere (a moderator), and a flag only the button flips goes stale or mutes on every tap. Keep one observed object, updated **only** from `MediaEventsListener`:
+
+```swift
+final class CallMediaState: NSObject, ObservableObject, MediaEventsListener {
+    @Published private(set) var isAudioMuted: Bool
+    @Published private(set) var isVideoPaused: Bool
+
+    /// Seed from the session settings the call was joined with.
+    init(audioMuted: Bool, videoPaused: Bool) {
+        isAudioMuted = audioMuted
+        isVideoPaused = videoPaused
+        super.init()
+        CallSession.shared.addMediaEventsListener(self)
+    }
+
+    func stopListening() { CallSession.shared.removeMediaEventsListener(self) }
+
+    func onAudioMuted() { DispatchQueue.main.async { self.isAudioMuted = true } }
+    func onAudioUnMuted() { DispatchQueue.main.async { self.isAudioMuted = false } }
+    func onVideoPaused() { DispatchQueue.main.async { self.isVideoPaused = true } }
+    func onVideoResumed() { DispatchQueue.main.async { self.isVideoPaused = false } }
+}
+```
+
+### 3. Custom SwiftUI Controls
+
+The buttons read that state and ask the SDK to change it; the icons flip when the event arrives:
 
 ```swift
 struct CustomCallControls: View {
-    @State private var isAudioMuted = false
-    @State private var isVideoPaused = false
+    @ObservedObject var media: CallMediaState
 
     var body: some View {
         HStack(spacing: 24) {
             Button(action: toggleAudio) {
-                Image(systemName: isAudioMuted ? "mic.slash.fill" : "mic.fill")
+                Image(systemName: media.isAudioMuted ? "mic.slash.fill" : "mic.fill")
             }
             Button(action: toggleVideo) {
-                Image(systemName: isVideoPaused ? "video.slash.fill" : "video.fill")
+                Image(systemName: media.isVideoPaused ? "video.slash.fill" : "video.fill")
             }
             Button(action: switchCamera) {
                 Image(systemName: "camera.rotate")
@@ -54,30 +81,35 @@ struct CustomCallControls: View {
     }
 
     private func toggleAudio() {
-        if isAudioMuted { CallSession.shared.unmuteAudio() }
+        if media.isAudioMuted { CallSession.shared.unmuteAudio() }
         else { CallSession.shared.muteAudio() }
     }
     private func toggleVideo() {
-        if isVideoPaused { CallSession.shared.resumeVideo() }
+        if media.isVideoPaused { CallSession.shared.resumeVideo() }
         else { CallSession.shared.pauseVideo() }
     }
     private func switchCamera() { CallSession.shared.switchCamera() }
-    private func endCall() { CallSession.shared.leaveSession() }
+    private func endCall() { CallSession.shared.leave() }
 }
-```
 
-### 3. Sync UI with Media Events
+// The call screen owns the state for the life of the call:
+struct CallScreen: View {
+    @StateObject private var media: CallMediaState
 
-```swift
-class MediaHandler: NSObject, MediaEventsListener, ObservableObject {
-    @Published var isAudioMuted = false
-    @Published var isVideoPaused = false
+    init(settings: SessionSettingsBuilder.SessionSettings) {
+        _media = StateObject(wrappedValue: CallMediaState(
+            audioMuted: settings.startAudioMuted,
+            videoPaused: settings.startVideoPaused
+        ))
+    }
 
-    func onAudioMuted() { DispatchQueue.main.async { self.isAudioMuted = true } }
-    func onAudioUnMuted() { DispatchQueue.main.async { self.isAudioMuted = false } }
-    func onVideoPaused() { DispatchQueue.main.async { self.isVideoPaused = true } }
-    func onVideoResumed() { DispatchQueue.main.async { self.isVideoPaused = false } }
-    // ... other required methods
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            // CallContainer() — your UIViewRepresentable hosting the call view
+            CustomCallControls(media: media)
+        }
+        .onDisappear { media.stopListening() }
+    }
 }
 ```
 
@@ -91,12 +123,12 @@ class MediaHandler: NSObject, MediaEventsListener, ObservableObject {
 | Start/stop recording | `startRecording()`, `stopRecording()` |
 | Pin/unpin participant | `pinParticipant(participantId:, type:)`, `unpinParticipant()` |
 | Mute participant | `muteParticipant(participantId:)` |
-| Leave session | `leaveSession()` |
+| Leave session | `leave()` |
 | Enable/disable PiP | `enablePictureInPictureLayout()`, `disablePictureInPictureLayout()` |
 
 ## Gotchas
 
-- Always use `MediaEventsListener` to sync your custom UI with actual state
+- Drive the controls from `MediaEventsListener` (`onAudioMuted` / `onAudioUnMuted` / `onVideoPaused` / `onVideoResumed`), never from a flag the button flips itself
 - `DispatchQueue.main.async` is required for UI updates from listener callbacks
 - `hideControlPanel(true)` hides the entire bottom bar
 - The call view container still renders video tiles even with controls hidden
