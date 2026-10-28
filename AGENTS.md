@@ -7,7 +7,7 @@ This repository contains the CometChat Calls SDK sample apps for iOS. When worki
 Load the relevant skill based on the task:
 
 ### Core
-- `skills/setup/SKILL.md` — SPM/CocoaPods, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions
+- `skills/setup/SKILL.md` — SPM, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions
 - `skills/join-session/SKILL.md` — CometChatCalls.joinSession, SessionSettingsBuilder, UIView container, UIViewRepresentable
 - `skills/ringing-integration/SKILL.md` — Calls SDK 5.1 initiateCall / endCall, prepared sessions, 1:1 and group ringing
 - `skills/session-settings/SKILL.md` — All SessionSettingsBuilder options: layouts, session type, audio mode, hide buttons
@@ -34,5 +34,5 @@ Load the relevant skill based on the task:
 - `CallAppSettingsBuilder().set(appID:).set(region:).build()` for init
 - UIView container for call rendering (wrap in `UIViewRepresentable` for SwiftUI)
 - Language: Swift 5.0+, SwiftUI. Platform: iOS 15.1+
-- Dependency management: SPM (preferred) or CocoaPods — Calls SDK 5.1.0 and Push Notifications SDK 2.0 are not on the CocoaPods trunk yet, so use SPM until they are
+- Dependency management: Swift Package Manager
 - Documentation: https://www.cometchat.com/docs/calls/ios/overview

@@ -32,27 +32,6 @@ In Xcode, go to File > Add Package Dependencies and enter:
 https://github.com/cometchat/calls-sdk-ios.git
 ```
 
-### CocoaPods
-
-> Version 5.1.0 is not on the CocoaPods trunk yet. Use Swift Package Manager until it is.
-
-Add the following to your `Podfile`:
-
-```ruby
-platform :ios, '15.1'
-
-target 'YourApp' do
-  use_frameworks!
-  pod 'CometChatCallsSDK', '5.1.0'
-end
-```
-
-Then run:
-
-```bash
-pod install
-```
-
 For the complete setup guide, refer to our [official documentation](https://www.cometchat.com/docs/calls/ios/overview).
 
 ## 🚀 Explore the Sample Apps

@@ -18,7 +18,7 @@ cp -r skills/ /path/to/your/project/skills/
 
 | Skill | Triggers On |
 |-------|-------------|
-| `setup` | SPM/CocoaPods, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions |
+| `setup` | SPM, CallAppSettingsBuilder, CometChatCalls init, Info.plist permissions |
 | `join-session` | CometChatCalls.joinSession, SessionSettingsBuilder, UIView container |
 | `ringing-integration` | Calls SDK 5.1 initiateCall / endCall, prepared sessions, 1:1 and group ringing, answered calls |
 | `session-settings` | All SessionSettingsBuilder options: layouts, session type, audio mode, hide buttons |
@@ -50,5 +50,5 @@ Each skill has a `description` field in its YAML frontmatter that lists trigger 
 - CometChat Chat SDK 4.1.10 or later — required by the Push Notifications SDK 2.0 chat and calls products; the Chat SDK carries no call signalling
 - Swift 5.0+, SwiftUI
 - iOS 15.1+, Xcode 16.4+
-- SPM (preferred) or CocoaPods — Calls SDK 5.1.0 and Push Notifications SDK 2.0 are not on the CocoaPods trunk yet, so use SPM until they are
+- Swift Package Manager
 - Works with: Kiro, Claude Code, Cursor, Copilot, and other AI coding assistants that support the skills ecosystem
